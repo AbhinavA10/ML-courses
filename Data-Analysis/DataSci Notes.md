@@ -46,4 +46,23 @@ Python DB API: (for relational databases)
 - Cursor Objects -- for performing DB queries
 
 # Week 2
+Data preprocessing: converting data from 'raw' form, to another format in order to prepare data for further analysis
+- aka data cleaning, data wrangling
 
+Handling missing values:
+- can drop the variable (column), or simply drop the entry
+- could also replace missing data with average of the column, or most frequent (e.g for categorial values)
+- could leave the data as is
+
+Pandas data types and conversion https://pbpython.com/pandas_dtypes.html
+
+Data can bias model to weigh one attribute more than the other, simply because of it's range. e.g. age vs income. 
+- To avoid this, we can `normalize`: simple feature scaling (old/max), min-max (old-min/range), z-score (old-mu/sigma)
+
+Binning data:
+- create bins using `np.linspace`
+- create categorial variable values for binned item
+- use `pd.cut` to split data into the `bins`
+
+Can convert categorial values into numeric variables
+- one-hot encoding. `pd.get_dummies(df['column_name'])`
