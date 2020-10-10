@@ -1,4 +1,6 @@
-# Week 1
+Jupyter Notebook Cheet sheet: https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ 
+
+# Week 1 - Intro
 Data Analsis/Science helps answer questions by looking at data. 
 
 Ex. What should the price of our used car be?
@@ -45,19 +47,23 @@ Python DB API: (for relational databases)
 - Connection Objects -- for DB connections and managing transactions
 - Cursor Objects -- for performing DB queries
 
-# Week 2
+# Week 2 - Data Wrangling
 Data preprocessing: converting data from 'raw' form, to another format in order to prepare data for further analysis
 - aka data cleaning, data wrangling
 
 Handling missing values:
 - can drop the variable (column), or simply drop the entry
-- could also replace missing data with average of the column, or most frequent (e.g for categorial values)
-- could leave the data as is
+    - only drop the column if many values are missing
+- could also replace missing data with average of the column, or most frequent (e.g for categorial values). See ipython notebook `2`
+- could leave the data as is (not likely going to be doing this)
 
 Pandas data types and conversion https://pbpython.com/pandas_dtypes.html
 
 Data can bias model to weigh one attribute more than the other, simply because of it's range. e.g. age vs income. 
-- To avoid this, we can `normalize`: simple feature scaling (old/max), min-max (old-min/range), z-score (old-mu/sigma)
+- To avoid this, we can `normalize` by:
+    - simple feature scaling (old/max) --> will range from 0 to 1
+    - min-max (old-min/range) --> 
+    - z-score (old-mu/sigma) --> 
 
 Binning data:
 - create bins using `np.linspace`
@@ -66,3 +72,11 @@ Binning data:
 
 Can convert categorial values into numeric variables
 - one-hot encoding. `pd.get_dummies(df['column_name'])`
+
+# Week 3 - Exploratory Data Analysis
+
+Purpose of Explorator Data Analysis is to:
+- summarize main characteristcs of data
+- gain better understanding of data set, 
+- extract important variables and uncover relationships between variables
+
