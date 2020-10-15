@@ -59,6 +59,8 @@ Handling missing values:
 
 Pandas data types and conversion https://pbpython.com/pandas_dtypes.html
 
+Pandas also has a categorical type https://realpython.com/python-pandas-tricks/#5-use-categorical-data-to-save-on-time-and-space 
+
 Data can bias model to weigh one attribute more than the other, simply because of it's range. e.g. age vs income. 
 - To avoid this, we can `normalize` by:
     - simple feature scaling (old/max) --> will range from 0 to 1
@@ -75,8 +77,55 @@ Can convert categorial values into numeric variables
 
 # Week 3 - Exploratory Data Analysis
 
-Purpose of Explorator Data Analysis is to:
+Purpose of Exploratory Data Analysis is to:
 - summarize main characteristcs of data
 - gain better understanding of data set, 
 - extract important variables and uncover relationships between variables
 
+- Descriptive Stats
+- GroupBy
+- ANOVA
+- Pearson Correlation, correlation heatmaps
+
+Descriptive Statistics:
+- For numerical variables: `df.describe()`
+- For categorial: `df['column'].value_counts()`
+- Box plots
+- Scatter plots: predictor = independant variable, target=dependant var
+
+Grouping Data:
+- `dataframe.Groupby()` is used on categorical variables
+    - https://realpython.com/pandas-groupby/
+    - groups data into subsets according to different categories of the variable
+ 
+e.g. To find average price of each car based on the categorical variable "body-style":
+
+`df[['price','body-style']].groupby(['body-style'],as_index= False).mean()`
+
+Pivot table: - one variable displayed along columns, and other variables displayed along rows.
+    - used on the result of `groupby` in order to better tabulate data.
+    
+Heatmaps can be used to plot data from pivot tables
+
+Correlation: measuring extent to which different variables are interdependant.
+
+Pearson correlation: measures strength of correleation for continuous numerical variables by giving correlation coefficent and P-value. 
+- coefficent: strength and direction of correlation
+- P-value: how certain we are about the calculated correlation coefficent
+    - strong: p-value<0.001
+    - moderate: p-value<0.05
+    - weak: p-value<0.1
+    - no certainity- s: p-value>0.1
+    
+- can create a heatmap for showing relation of each variable to each other
+
+
+ANOVA: Analysis of Variance
+- for finding correlation between different groups of a categorical variable
+- F-test: variation between sample group means divided by variation within sample group
+   - small F implies poor correlation between variable categories and target variable
+- shows variance between 2 different groups of a categorial variable
+    - would need to `groupby` data first, in order to create the 2 groups
+- ANOVA:`scipy.f_oneway`
+
+![img](imgs/ANOVA.png)
