@@ -38,7 +38,11 @@ df.head() # or df.info()
 
 When doing basic data exploration, check data types in columns of dataframe using `df.dtypes` to make sure it makes sense/ or if it needs to be changed 
 
-Statisical summary: df.describe()
+Accessing Pandas Data:
+- `df['colName']` returns a series from the dataframe `df`
+- `df[['colName']]` returns a dataframe from the dataframe `df`
+
+Statisical summary: `df.describe()``
 - can also generate statistics for all columns (including string based columns)
 
 Access Database in Python 
@@ -92,6 +96,8 @@ Grouping Data:
 - `dataframe.Groupby()` is used on categorical variables
     - https://realpython.com/pandas-groupby/
     - groups data into subsets according to different categories of the variable
+    - passing in multiple columns into the `groupby` groups dataframe by unique combinations of the two columns. 
+        - See Notebook 3
  
 e.g. To find average price of each car based on the categorical variable "body-style":
 
@@ -124,7 +130,7 @@ ANOVA: Analysis of Variance
    - small F implies poor correlation between variable categories and target variable
 - shows variance between 2 different groups of a categorial variable
     - would need to `groupby` data first, in order to create the 2 groups
-- ANOVA:`scipy.f_oneway`
+- ANOVA:`scipy.stats.f_oneway`
 
 ![img](imgs/ANOVA.png)
 
