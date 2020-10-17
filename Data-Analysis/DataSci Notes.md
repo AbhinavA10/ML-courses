@@ -58,7 +58,7 @@ Handling missing values:
 - could leave the data as is (not likely going to be doing this)
 
 Pandas data types and conversion https://pbpython.com/pandas_dtypes.html
-
+- `.astype('type')`
 Pandas also has a categorical type https://realpython.com/python-pandas-tricks/#5-use-categorical-data-to-save-on-time-and-space 
 
 Data can bias model to weigh one attribute more than the other, simply because of it's range. e.g. age vs income. 
@@ -82,11 +82,6 @@ Purpose of Exploratory Data Analysis is to:
 - gain better understanding of data set, 
 - extract important variables and uncover relationships between variables
 
-- Descriptive Stats
-- GroupBy
-- ANOVA
-- Pearson Correlation, correlation heatmaps
-
 Descriptive Statistics:
 - For numerical variables: `df.describe()`
 - For categorial: `df['column'].value_counts()`
@@ -109,6 +104,9 @@ Heatmaps can be used to plot data from pivot tables
 
 Correlation: measuring extent to which different variables are interdependant.
 
+`df.corr()` - Find pairwise correlation of `int64` or `float64` dtypes
+- entry in the matrix indicates correlation between the two variables
+
 Pearson correlation: measures strength of correleation for continuous numerical variables by giving correlation coefficent and P-value. 
 - coefficent: strength and direction of correlation
 - P-value: how certain we are about the calculated correlation coefficent
@@ -129,3 +127,11 @@ ANOVA: Analysis of Variance
 - ANOVA:`scipy.f_oneway`
 
 ![img](imgs/ANOVA.png)
+
+
+## Visualizations
+
+Correlation of numeric variables can be visualized using `seaborn.regplot(x="col1",y="col2",data=df)`
+- steeper line ==> stronger correlation
+For categorial variables, use `seaborn.boxplot()`
+- Less overlap of distributions of box plot in different groups of the same variable ==> stronger correlation with the variable
