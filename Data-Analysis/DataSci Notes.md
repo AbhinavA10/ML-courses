@@ -1,5 +1,9 @@
 Jupyter Notebook Cheet sheet: https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ 
 
+Hyper-paramters and GridSearch definitions to read about later:
+- https://scikit-learn.org/stable/modules/grid_search.html#grid-search
+- https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation
+
 # Week 1 - Intro
 Data Analsis/Science helps answer questions by looking at data. 
 
@@ -141,3 +145,141 @@ Correlation of numeric variables can be visualized using `seaborn.regplot(x="col
 - steeper line ==> stronger correlation
 For categorial variables, use `seaborn.boxplot()`
 - Less overlap of distributions of box plot in different groups of the same variable ==> stronger correlation with the variable
+
+# Week 4 - Model Development
+
+We will try to determine a reasonable price, for a used car.
+
+- Polynomial Regression and Pipelines
+- R-squared and MSE
+- Prediction and Decision making
+
+
+Model:
+- thought of as a matematical equation used to predict a value, given one or more other values
+- relating one or more independant variables to dependant variable
+- more relvant data ==> more accurate model
+
+Simple Linear Regression (SLR)
+- finding the cofficents `b0,b1` in `y=b0+b1*x`
+- use training points to _fit_ a model, then use the model to _predict_ an estimate.
+- `y_hat` denotes an estimate
+
+```python
+#import from sci-kit learn
+from sklearn.linear_model import LinearRegression
+# Create model
+lm = LinearRegression
+# define predictor and target variable
+X  = df[['mpg']]
+Y  = df[['price']]
+# fit
+lm.fit(X,Y)
+# b0 = lm.intercept_
+# b1 = lm.coef_
+
+#predict:
+Yhat=lm.predict(X)
+```
+
+Multiple Linear Regression
+- for finding relationship between two or more predictor (X) variables, and one continuous target (Y) variable
+- SLR, extended to multiple dimensions and more coefficents.
+
+```python
+# Same as before, except X variable is now multiple dimensions:
+Z = df[['horsepower','weight','engine-size','mpg']]
+Y  = df[['price']]
+# fit
+lm.fit(Z,Y)
+#predict:
+Yhat=lm.predict(Z)
+```
+
+Regression Plot:
+- shows good estimate of relationship between two variables
+
+```python
+import seaborn as sns
+sns.regplot(x="mpg",y="price",data=df)
+plt.ylim(0,)
+```
+
+Residual plot:
+- plot of error between actual value and predicted value. (target-prediction)
+- expect to see plot have mean of `0` and spread out evenly (randomly) around x-axis
+   - if so, then linear model is appropriate
+- if residual plot has curvature, or not randomly spread out then non-linear model may be needed
+- model is incorrect if variance changes with x.
+
+```python
+import seaborn as sns
+sns.residplot(df['mpg'],df['price'])
+```
+
+Distribution Plot
+- shows counts of predicted value vs actual values. This helps in seeing if model matches expected output
+- i.e. a layered Histogram
+- Gaussian curve is often superimposed over vertical bar histogram
+
+```python
+import seaborn as sns
+ax1 = sns.distplot(df['price'],hist=False,color="r",label="Actual Value")
+sns.distplot(YHat,hist=False,color='b',label='Fitted Values', ax=ax1)
+```
+- https://seaborn.pydata.org/generated/seaborn.distplot.html
+- https://seaborn.pydata.org/generated/seaborn.histplot.html#seaborn.histplot
+- https://seaborn.pydata.org/generated/seaborn.displot.html#seaborn.displot
+
+
+![img](imgs/Dist-plot.png)
+
+
+Polynomial Regression and Pipelines
+- for curvilinear relationships. 
+- predictor variables have exponent > 1
+
+For single dimension polynomial regression (only one predictor variable):
+```python
+import numpy as np
+f = np.polyfit(x,y,3)
+p = np.poly1d(f)
+print(p)
+```
+
+Multidimension polynomial regression is more complicated. Numpy can't handle it. 
+- use `sklearn.preprocessing` instead
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+pr = PolynomialFeatures(degree=2,include_bias=False)
+pr.fit_transform([dimension1,dimension2])
+```
+
+As dimension of input data gets larger, we may want to normalize multiple features.
+
+Pre-processing library in `sklearn`:
+- can normalize each feature simultaneously using [`sklearn.preprocessing.StandardScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)
+    - ML Estimators often work better on data where distribution is mean=0 and std. dev.=1. [Source](https://stackoverflow.com/questions/40758562/can-anyone-explain-me-standardscaler)
+    - `StandardScaler` normalizes each feature / column / dimension of input data independently
+    - First, `fit` the data (calculate mean and variance. Then `transform` the input data, to do the actual scaling
+
+Scikit-Learn Pipelines
+- [`sklearn.pipeline.Pipeline`](https://scikit-learn.org/stable/modules/compose.html#pipeline) helps simplify code using their `Transformer` API
+- Often in ML tasks you need to perform sequence of different transformations (find set of features, generate new features, select only some good features) of raw dataset before applying final estimator.
+- ML Predictions often involve transforming the data in multiple ways, before being able to predict a value. This can be encapsulated into a _pipeline_.
+- Pipelines sequently perform a series of _transformations_. The last step of a pipline is a _prediction_ (_estimator_). It encapsulates transformers and predictors inside.
+- helps avoid leaking training and testing data with each other.
+- build using a list of ``(key, value)`` pairs, where the `key` is a string containing the name you want to give this step and `value` is an estimator object
+- can train the entire pipeline using `pipe.fit()`
+- then `pipe.predict()`
+
+E.g. Pipeline:
+1. Normalization (transform)
+2. Polynomial Transform (transform)
+3. Linear Regression (prediction)
+
+More good links:
+- https://stackoverflow.com/questions/33091376/python-what-is-exactly-sklearn-pipeline-pipeline
+- https://towardsdatascience.com/a-simple-example-of-pipeline-in-machine-learning-with-scikit-learn-e726ffbb6976
+- https://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html
