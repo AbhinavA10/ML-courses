@@ -231,12 +231,12 @@ Distribution Plot
 Below is an example of DistPlot:
 ```python
 import seaborn as sns
-ax1 = sns.distplot(df['price'],hist=False,color="r",label="Actual Value")
-sns.distplot(YHat,hist=False,color='b',label='Fitted Values', ax=ax1)
+ax1 = sns.kdeplot(df['price'], color="r", label="Actual Value")
+sns.kdeplot(Y_hat, color="b", label="Fitted Values" , ax=ax1)
 ```
 - https://seaborn.pydata.org/generated/seaborn.distplot.html
-- https://seaborn.pydata.org/generated/seaborn.histplot.html#seaborn.histplot
-- https://seaborn.pydata.org/generated/seaborn.displot.html#seaborn.displot
+- https://seaborn.pydata.org/generated/seaborn.histplot.html
+- https://seaborn.pydata.org/generated/seaborn.displot.html
 
 
 ![img](imgs/Dist-plot.png)
@@ -263,7 +263,14 @@ pr = PolynomialFeatures(degree=2,include_bias=False)
 pr.fit_transform([dimension1,dimension2])
 ```
 
-Linke about what `Polynomial Features` are: https://machinelearningmastery.com/polynomial-features-transforms-for-machine-learning/
+To be able to perform multidimension polynomial regression, we need to transform input features using `PolynomialFeatures`, and then use those new features as inputs to a regular `LinearRegression`
+
+Link about what `Polynomial Features` are: 
+- https://machinelearningmastery.com/polynomial-features-transforms-for-machine-learning/
+- https://acadgild.com/blog/polynomial-regression-understand-power-of-polynomials
+- A common pattern within machine learning is to use linear models trained on nonlinear functions of the data
+- Polynomial regression is a special case of linear regression, by the fact that we create some polynomial features before creating a linear regression.
+
 
 
 https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html
