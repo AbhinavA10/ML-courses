@@ -1,9 +1,5 @@
 Jupyter Notebook Cheet sheet: https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ 
 
-Hyper-paramters and GridSearch definitions to read about later:
-- https://scikit-learn.org/stable/modules/grid_search.html#grid-search
-- https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation
-
 # Week 1 - Intro
 Data Analsis/Science helps answer questions by looking at data. 
 
@@ -160,7 +156,11 @@ Model:
 - relating one or more independant variables to dependant variable
 - more relvant data ==> more accurate model
 
+
+- Regression ==> finding line of best fit
+
 Simple Linear Regression (SLR)
+- single independant variable
 - finding the cofficents `b0,b1` in `y=b0+b1*x`
 - use training points to _fit_ a model, then use the model to _predict_ an estimate.
 - `y_hat` denotes an estimate
@@ -185,6 +185,7 @@ Yhat=lm.predict(X)
 Multiple Linear Regression
 - for finding relationship between two or more predictor (X) variables, and one continuous target (Y) variable
 - SLR, extended to multiple dimensions and more coefficents.
+- finding the cofficents `b0,b1,b2,b3...` in `y= b0 + b1*x1 + b2*x2 + b3*x3`
 
 ```python
 # Same as before, except X variable is now multiple dimensions:
@@ -196,6 +197,7 @@ lm.fit(Z,Y)
 Yhat=lm.predict(Z)
 ```
 
+## Model Evaluation using Visualization
 Regression Plot:
 - shows good estimate of relationship between two variables
 
@@ -206,8 +208,8 @@ plt.ylim(0,)
 ```
 
 Residual plot:
-- plot of error between actual value and predicted value. (target-prediction)
-- expect to see plot have mean of `0` and spread out evenly (randomly) around x-axis
+- plot of error between actual value and predicted value. (`target - prediction`)
+- expect to see plot have mean of `0` and spread out evenly (randomly) around x-axis with similar variance
    - if so, then linear model is appropriate
 - if residual plot has curvature, or not randomly spread out then non-linear model may be needed
 - model is incorrect if variance changes with x.
@@ -220,8 +222,13 @@ sns.residplot(df['mpg'],df['price'])
 Distribution Plot
 - shows counts of predicted value vs actual values. This helps in seeing if model matches expected output
 - i.e. a layered Histogram
-- Gaussian curve is often superimposed over vertical bar histogram
+- Gaussian curve is often superimposed over vertical bar histogram since data is continuous
+- good for multivariate input data
+    - distplot visualizes distribution of a single variable.
+- if model doesn't match up well with actual value, may need more data in that area, or possibly use a non-linear model
 
+
+Below is an example of DistPlot:
 ```python
 import seaborn as sns
 ax1 = sns.distplot(df['price'],hist=False,color="r",label="Actual Value")
@@ -234,10 +241,10 @@ sns.distplot(YHat,hist=False,color='b',label='Fitted Values', ax=ax1)
 
 ![img](imgs/Dist-plot.png)
 
-
-Polynomial Regression and Pipelines
+## Polynomial Regression and Pipelines
 - for curvilinear relationships. 
-- predictor variables have exponent > 1
+    - predictor variables have exponent > 1
+    - e.g. quadratic, cubic, higher order...
 
 For single dimension polynomial regression (only one predictor variable):
 ```python
@@ -256,13 +263,21 @@ pr = PolynomialFeatures(degree=2,include_bias=False)
 pr.fit_transform([dimension1,dimension2])
 ```
 
-As dimension of input data gets larger, we may want to normalize multiple features.
+Linke about what `Polynomial Features` are: https://machinelearningmastery.com/polynomial-features-transforms-for-machine-learning/
 
-Pre-processing library in `sklearn`:
+
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html
+- `fit_transform` is the same as calling `.fit()`, then `.transform()`
+
+
+- The sklearn API has `fit` which computes the features. 
+- Then `transform` then computes outputs based on the `fit`
+
+As dimension of input data gets larger, we may want to normalize multiple features. For this, we use pre-processing library in `sklearn`:
 - can normalize each feature simultaneously using [`sklearn.preprocessing.StandardScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)
     - ML Estimators often work better on data where distribution is mean=0 and std. dev.=1. [Source](https://stackoverflow.com/questions/40758562/can-anyone-explain-me-standardscaler)
     - `StandardScaler` normalizes each feature / column / dimension of input data independently
-    - First, `fit` the data (calculate mean and variance. Then `transform` the input data, to do the actual scaling
+    - First, `fit` the data (calculate mean and variance). Then `transform` the input data, to do the actual scaling
 
 Scikit-Learn Pipelines
 - [`sklearn.pipeline.Pipeline`](https://scikit-learn.org/stable/modules/compose.html#pipeline) helps simplify code using their `Transformer` API
@@ -274,7 +289,7 @@ Scikit-Learn Pipelines
 - can train the entire pipeline using `pipe.fit()`
 - then `pipe.predict()`
 
-E.g. Pipeline:
+E.g. of a Pipeline:
 1. Normalization (transform)
 2. Polynomial Transform (transform)
 3. Linear Regression (prediction)
@@ -283,3 +298,31 @@ More good links:
 - https://stackoverflow.com/questions/33091376/python-what-is-exactly-sklearn-pipeline-pipeline
 - https://towardsdatascience.com/a-simple-example-of-pipeline-in-machine-learning-with-scikit-learn-e726ffbb6976
 - https://scikit-learn.org/stable/auto_examples/model_selection/grid_search_text_feature_extraction.html
+
+## Measuring In-sample evaluation (Numerical model evaluation)
+- numerically determining fit of model on dataset can be done through measuring:
+   - Mean Squared Error (MSE). `sklearn.metrics.mean_squared_error`
+   - R^2 (shows how close data is to fitted regression line). Using the LinearRegression object from sklearn,`lm.score()`
+
+## Prediction and Decision Making
+We need to determine if the model is correct. We can check:
+- do predicted values make sense?
+- use visualization
+- see numerical measures of evaluation
+- compare different models
+
+# Week 5 - Model Evaluation and Refinement
+
+
+
+
+
+
+
+
+
+## Grid Search
+
+Hyper-paramters and GridSearch definitions to read about later:
+- https://scikit-learn.org/stable/modules/grid_search.html#grid-search
+- https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation
