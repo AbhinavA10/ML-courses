@@ -132,7 +132,7 @@ ANOVA: Analysis of Variance
     - would need to `groupby` data first, in order to create the 2 groups
 - ANOVA:`scipy.stats.f_oneway`
 
-![img](imgs/ANOVA.png)
+![Anova](imgs/ANOVA.png)
 
 
 ## Visualizations
@@ -239,7 +239,7 @@ sns.kdeplot(Y_hat, color="b", label="Fitted Values" , ax=ax1)
 - https://seaborn.pydata.org/generated/seaborn.displot.html
 
 
-![img](imgs/Dist-plot.png)
+![Distribution plot sample](imgs/Dist-plot.png)
 
 ## Polynomial Regression and Pipelines
 - for curvilinear relationships. 
@@ -320,16 +320,121 @@ We need to determine if the model is correct. We can check:
 
 # Week 5 - Model Evaluation and Refinement
 
+In-sample evaluation tells how well our mdoel will fit data used to train it. But, it doesn't tell how well trained model can be used to predict new data. 
 
+Solution: split data into *training* (in-sample evaluation) and *test* (out-of-sample evaluation)data. 
 
+For splitting data, usually 70% of data is for training, and 30% for testing. 
+- use training set to build and train model
+- use testing set to assess model performance
 
+When done testing, should use *all* data to train model.
 
+`sklearn` has a function to randomly split data sets into training and testing subsets. 
+```python
+from sklearn.model_selection import train_test_split
+x_train,x_test, y_train, y_test = train_test_split(x_data,y_data,test_size=0.3,random_state-0)
+# y is target, x is predictor variables
+```
 
+## Generalization Error
+- measure of how well our data predicts previously unseen data
+- error obtained when using testing data is an approximation of this error
 
+Comparison:
+- More training data and less test data ==> greater accuracy, but less precision
+- Less training data and more test data ==> lower accuracy, but greater precision
 
+Cross validation
+To get better performance, we use **cross validation**
+- split data into `k` equal groups. A group aka a *fold*
+- We use some folds for training, and some for testing
+- Next, we do the same, but choose different folds for training and testing sets
+- Repeated until each fold/partition/group is used for both training and testing.
+
+Then at end, use average result as out of sample error. Metric depends on model. e.g. R^2
+
+![Image showing concept of Cross Validation](imgs/cross-validation-concept.png)
+
+`cross_val_score()`
+- performs multiple out-of-sample evaluation
+- returns _score_ of model, for each "iteration" of validation
+```python
+from sklearn.model_selection import cross_val_score
+lr = LinearRegression()
+# 3 folds
+scores=cross_val_score(lr,x_data,y_data,cv=3)
+# cross_val_score returns an array.
+np.mean(scores)
+```
+Below is an animation of cross-validation in the above code snippet. Orange is testing fold, white boxes are training data. Red is the entry in the `scores` array (R^2 value in this case).
+
+![Animation of Cross Validation score](imgs/cross-validation-score.gif)
+
+`cross_val_predict()`
+- Similar to `cross_val_score()`, except returns predicted values instead of scores.
+```python
+from sklearn.model_selection import cross_val_predict
+lr = LinearRegression()
+# 3 folds
+yhat==cross_val_predict(lr,x_data,y_data,cv=3)
+# cross_val_predict returns an array.
+```
+
+![Animation of Cross Validation predict](imgs/cross-validation-predict.gif)
+
+## Overfitting, Underfitting and Model Selection
+
+When performing polynomial regression, we will need to choose the order of polynomial
+
+Goal of Model Selection is to determine the order of
+the polynomial to provide the best estimate of the function y(x). 
+
+Underfitting: where the model is too simple to fit the data
+
+Overfitting: model starts to fit the *noise*, rather than the function
+
+Training MSE Error decreases as order of polynomial decreases, but testing error would increase. We choose polynomial order that has lowest Test Error / highest R^2 value. 
+
+Example of checking R^2 values of a polynomial, for different orders:
+```python
+Rsquared_test = []
+order = [1,2,3,4]
+for n in order:
+    pr=PolynomialFeatures(degree=n)
+    x_train_pr = pr.fit_transform(x_train[['horsepower']])
+    x_test_pr = pr.fit_transform(x_test[['horsepower']])
+    lr.fit(x_train_pr,y_train)
+    Rsquared_test.append(lr.score(x_test_pr,y_test))
+```
+
+## Ridge Regression
+- prevents overfitting
+- controls coefficents for higher order terms in polynomial by introducing `alpha`.
+- `alpha` is selected before fitting/training model
+- larger alpha means smaller coefficents ==> making model more underfitting
+- to select correct `alpha`, use cross-validation
+
+A *validation data set* is similar to a test data set, but it is used for selecting paramters. 
+
+```python
+from sklearn.linear_model import Ridge
+RidgeModel = Ridge(alpha=0.1)
+RidgeModel.fit(x,y)
+Yhat=RidgeModel.predict(x)
+```
 
 ## Grid Search
+- allows to scan through multiple free parameters
+- `alpha` is called a **hyperparameter**. This is a paramter not part of fitting or training process, but of the model itself. 
+- Grid Search takes training data and different values of the hyperparameters.
+- Process to select the hyperparameter,
+    - split dataset into three parts: the training set, validation set, and test set.
+    - train the model for different hyperparameters.
+    - Use the R-squared or MSE for each model. Select the hyperparameter that minimizes the mean squared error or maximizes the R-squared on the validation set.
+    - Finally test our model performance using the test data. 
+
 
 Hyper-paramters and GridSearch definitions to read about later:
-- https://scikit-learn.org/stable/modules/grid_search.html#grid-search
 - https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation
+- https://scikit-learn.org/stable/modules/grid_search.html#grid-search
