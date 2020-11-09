@@ -320,9 +320,9 @@ We need to determine if the model is correct. We can check:
 
 # Week 5 - Model Evaluation and Refinement
 
-In-sample evaluation tells how well our mdoel will fit data used to train it. But, it doesn't tell how well trained model can be used to predict new data. 
+In-sample evaluation tells how well our model will fit data used to train it. But, it doesn't tell how well trained model can be used to predict new data. 
 
-Solution: split data into *training* (in-sample evaluation) and *test* (out-of-sample evaluation)data. 
+Solution: split data into *training* (in-sample evaluation) and *test* (out-of-sample evaluation) data. This a common pattern in supervised ML.
 
 For splitting data, usually 70% of data is for training, and 30% for testing. 
 - use training set to build and train model
@@ -345,8 +345,12 @@ Comparison:
 - More training data and less test data ==> greater accuracy, but less precision
 - Less training data and more test data ==> lower accuracy, but greater precision
 
-Cross validation
-To get better performance, we use **cross validation**
+## Cross validation
+
+https://scikit-learn.org/stable/modules/cross_validation.html
+- There is a risk of overfitting model on test set because hyperparameters can be tweaked until estimator performs optimally. This no longer generalizes well. 
+
+To get better performance, we use **cross validation**:
 - split data into `k` equal groups. A group aka a *fold*
 - We use some folds for training, and some for testing
 - Next, we do the same, but choose different folds for training and testing sets
@@ -392,7 +396,7 @@ the polynomial to provide the best estimate of the function y(x).
 
 Underfitting: where the model is too simple to fit the data
 
-Overfitting: model starts to fit the *noise*, rather than the function
+Overfitting: model starts to fit the *noise*, rather than the function. Or, fits really well to training data, but gives no useful predictions on testing data. 
 
 Training MSE Error decreases as order of polynomial decreases, but testing error would increase. We choose polynomial order that has lowest Test Error / highest R^2 value. 
 
@@ -415,8 +419,6 @@ for n in order:
 - larger alpha means smaller coefficents ==> making model more underfitting
 - to select correct `alpha`, use cross-validation
 
-A *validation data set* is similar to a test data set, but it is used for selecting paramters. 
-
 ```python
 from sklearn.linear_model import Ridge
 RidgeModel = Ridge(alpha=0.1)
@@ -425,16 +427,23 @@ Yhat=RidgeModel.predict(x)
 ```
 
 ## Grid Search
+
+A *validation data set* is similar to a test data set, but it is used for selecting paramters. 
+
+Grid Search
 - allows to scan through multiple free parameters
-- `alpha` is called a **hyperparameter**. This is a paramter not part of fitting or training process, but of the model itself. 
+- `alpha` is called a **hyperparameter**/**free parameter**. This is a paramter not part of fitting or training process, but of the model itself that is not learnt by the model. (i.e. passed as agruments to constructor)
 - Grid Search takes training data and different values of the hyperparameters.
-- Process to select the hyperparameter,
+- Grid Search searches the hyper-parameter space for the best cross validation score.
+- https://scikit-learn.org/stable/modules/grid_search.html
+- A search consists of: 
+    - an estimator (regressor or classifier such as sklearn.svm.SVC());
+    - a parameter space;
+    - a method for searching or sampling candidates;
+    - a cross-validation scheme; and
+    - a score function.
+- Process to select the hyperparameter:
     - split dataset into three parts: the training set, validation set, and test set.
     - train the model for different hyperparameters.
     - Use the R-squared or MSE for each model. Select the hyperparameter that minimizes the mean squared error or maximizes the R-squared on the validation set.
     - Finally test our model performance using the test data. 
-
-
-Hyper-paramters and GridSearch definitions to read about later:
-- https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation
-- https://scikit-learn.org/stable/modules/grid_search.html#grid-search
