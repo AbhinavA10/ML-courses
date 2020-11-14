@@ -159,7 +159,7 @@ Model:
 
 - Regression ==> finding line of best fit
 
-Simple Linear Regression (SLR)
+## Simple Linear Regression (SLR)
 - single independant variable
 - finding the cofficents `b0,b1` in `y=b0+b1*x`
 - use training points to _fit_ a model, then use the model to _predict_ an estimate.
@@ -182,7 +182,7 @@ lm.fit(X,Y)
 Yhat=lm.predict(X)
 ```
 
-Multiple Linear Regression
+## Multiple Linear Regression
 - for finding relationship between two or more predictor (X) variables, and one continuous target (Y) variable
 - SLR, extended to multiple dimensions and more coefficents.
 - finding the cofficents `b0,b1,b2,b3...` in `y= b0 + b1*x1 + b2*x2 + b3*x3`
@@ -195,10 +195,13 @@ Y  = df[['price']]
 lm.fit(Z,Y)
 #predict:
 Yhat=lm.predict(Z)
+# lm.coef_ is the vector (b1,...,b3)
 ```
 
+
+
 ## Model Evaluation using Visualization
-Regression Plot:
+### Regression Plot:
 - shows good estimate of relationship between two variables
 
 ```python
@@ -207,7 +210,7 @@ sns.regplot(x="mpg",y="price",data=df)
 plt.ylim(0,)
 ```
 
-Residual plot:
+### Residual plot:
 - plot of error between actual value and predicted value. (`target - prediction`)
 - expect to see plot have mean of `0` and spread out evenly (randomly) around x-axis with similar variance
    - if so, then linear model is appropriate
@@ -219,7 +222,7 @@ import seaborn as sns
 sns.residplot(df['mpg'],df['price'])
 ```
 
-Distribution Plot
+### Distribution Plot
 - shows counts of predicted value vs actual values. This helps in seeing if model matches expected output
 - i.e. a layered Histogram
 - Gaussian curve is often superimposed over vertical bar histogram since data is continuous
@@ -257,32 +260,36 @@ print(p)
 Multidimension polynomial regression is more complicated. Numpy can't handle it. 
 - use `sklearn.preprocessing` instead
 
+To be able to perform multidimension polynomial regression, we need to transform input features using `PolynomialFeatures`, and then use those new features as inputs to a regular `LinearRegression`
+- Linear Regression fits a linear model of`y_hat= b0 + b1*x1 + b2*x2 + b3*x3+...` to data by minimzing residual sum of squares (Ordinary Least Squares). [Source](https://scikit-learn.org/stable/modules/linear_model.html#ordinary-least-squares). It solves a problem of the form: <img src="imgs/min_OLS.png" width="100"/> 
+    - Subscript of `2` indicates using the [`Euclidean Norm`](https://stats.stackexchange.com/a/186911). This is the most common norm of a vector, which we often abbreviate as `||x||`
+
+
+Using `PolynomialFeatures`, the features of X have been transformed from 
+<img src="imgs/polynomial_feature_transform.png" width="250"/> [Source](https://scikit-learn.org/stable/modules/preprocessing.html#generating-polynomial-features). This allows the usage of the  `LinearRegression` object in MLR style, while actually 'performing' multidimensional polynomial regression
+
+
+
 ```python
 from sklearn.preprocessing import PolynomialFeatures
 pr = PolynomialFeatures(degree=2,include_bias=False)
 pr.fit_transform([dimension1,dimension2])
+# `fit_transform` is the same as calling `.fit()`, then `.transform()`
 ```
 
-To be able to perform multidimension polynomial regression, we need to transform input features using `PolynomialFeatures`, and then use those new features as inputs to a regular `LinearRegression`
 
 Link about what `Polynomial Features` are: 
 - https://machinelearningmastery.com/polynomial-features-transforms-for-machine-learning/
 - https://acadgild.com/blog/polynomial-regression-understand-power-of-polynomials
-- A common pattern within machine learning is to use linear models trained on nonlinear functions of the data
-- Polynomial regression is a special case of linear regression, by the fact that we create some polynomial features before creating a linear regression.
-
-
-
-https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html
-- `fit_transform` is the same as calling `.fit()`, then `.transform()`
 
 
 - The sklearn API has `fit` which computes the features. 
 - Then `transform` then computes outputs based on the `fit`
 
 As dimension of input data gets larger, we may want to normalize multiple features. For this, we use pre-processing library in `sklearn`:
+- [This library](https://scikit-learn.org/stable/modules/preprocessing.html) provides methods to tranform raw feature vectors into a representation that is more suitable for the downstream estimators. 
 - can normalize each feature simultaneously using [`sklearn.preprocessing.StandardScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)
-    - ML Estimators often work better on data where distribution is mean=0 and std. dev.=1. [Source](https://stackoverflow.com/questions/40758562/can-anyone-explain-me-standardscaler)
+    - ML Estimators often work better on data where distribution is `mean=0` and `std. dev.=1`. [Source](https://stackoverflow.com/questions/40758562/can-anyone-explain-me-standardscaler)
     - `StandardScaler` normalizes each feature / column / dimension of input data independently
     - First, `fit` the data (calculate mean and variance). Then `transform` the input data, to do the actual scaling
 
@@ -333,7 +340,8 @@ When done testing, should use *all* data to train model.
 `sklearn` has a function to randomly split data sets into training and testing subsets. 
 ```python
 from sklearn.model_selection import train_test_split
-x_train,x_test, y_train, y_test = train_test_split(x_data,y_data,test_size=0.3,random_state-0)
+x_train,x_test, y_train, y_test = train_test_split(x_data,y_data,test_size=0.3,random_state=0)
+# random_state gives reproducible results.
 # y is target, x is predictor variables
 ```
 
@@ -359,6 +367,9 @@ To get better performance, we use **cross validation**:
 Then at end, use average result as out of sample error. Metric depends on model. e.g. R^2
 
 ![Image showing concept of Cross Validation](imgs/cross-validation-concept.png)
+
+From sklearn documentation: 
+![Image showing concept of Cross Validation](https://scikit-learn.org/stable/_images/grid_search_cross_validation.png)
 
 `cross_val_score()`
 - performs multiple out-of-sample evaluation
@@ -415,9 +426,16 @@ for n in order:
 ## Ridge Regression
 - prevents overfitting
 - controls coefficents for higher order terms in polynomial by introducing `alpha`.
+- larger alpha means smaller coefficents
+    - ==> making coefficients become mroe robust to collinearity (relation between independant variables) [Source](https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression-and-classification)
+    - ==> making model more underfitting
+- Ridge Regresion mathematically solves the problem of <img src="imgs/min_ridge.png" width="150"/>
 - `alpha` is selected before fitting/training model
-- larger alpha means smaller coefficents ==> making model more underfitting
 - to select correct `alpha`, use cross-validation
+
+Below is a graph taken from [here](https://scikit-learn.org/stable/auto_examples/linear_model/plot_ridge_path.html) showing effect of `alpha` on coefficents
+
+![img](https://scikit-learn.org/stable/_images/sphx_glr_plot_ridge_path_001.png)
 
 ```python
 from sklearn.linear_model import Ridge
@@ -443,7 +461,17 @@ Grid Search
     - a cross-validation scheme; and
     - a score function.
 - Process to select the hyperparameter:
-    - split dataset into three parts: the training set, validation set, and test set.
+    - split dataset into three parts: the `training set`, `validation set`, and `test set`.
+        - `Training set`: used during the learning process and is used to fit the parameters (e.g., weights) of the model
+        - `Validation Set`: used to tune the hyperparameters
+        - `Testing set`: used only to assess the performance of a fully-trained model. e.g. would use the test to estimate the error rate after we have chosen the final model. (MLP size and actual weights) After assessing the model model on the test set, YOU MUST NOT tune the model any further! At this point, we decide whether we need to restructure the model / go back to the drawing board. 
+        - https://stats.stackexchange.com/a/96869 
+        - https://towardsdatascience.com/train-validation-and-test-sets-72cb40cba9e7
     - train the model for different hyperparameters.
     - Use the R-squared or MSE for each model. Select the hyperparameter that minimizes the mean squared error or maximizes the R-squared on the validation set.
     - Finally test our model performance using the test data. 
+
+
+- `np.reshape`: `-1` means to infer the dimension. Only 1 dimension can have -1. 
+- Ex. `np.reshape(-1,1)` can mean making data into a single column vector
+- https://numpy.org/doc/stable/reference/generated/numpy.reshape.html
