@@ -9,5 +9,14 @@ Courses:
 
 
 ## Steps to run:
-- Activate your conda env
+- `conda env create --file environment.yml`
+- `conda activate ml`
+- `jupyter labextension install @jupyter-widgets/jupyterlab-manager` [Source 1](https://stackoverflow.com/questions/49542417/how-to-get-ipywidgets-working-in-jupyter-lab), [Source 2](https://ipywidgets.readthedocs.io/en/latest/user_install.html#installing-the-jupyterlab-extension)
 - `jupyter-lab`
+
+## To update conda env from `.yml` file:
+
+```
+conda activate ml
+conda env update --file environment.yml
+```
