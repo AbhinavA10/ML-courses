@@ -42,7 +42,7 @@ Accessing Pandas Data:
 - `df['colName']` returns a series from the dataframe `df`
 - `df[['colName']]` returns a dataframe from the dataframe `df`
 
-Statisical summary: `df.describe()``
+Statisical summary: `df.describe()`
 - can also generate statistics for all columns (including string based columns)
 
 Access Database in Python 
