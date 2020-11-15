@@ -446,7 +446,7 @@ Yhat=RidgeModel.predict(x)
 
 ## Grid Search
 
-A *validation data set* is similar to a test data set, but it is used for selecting paramters. 
+
 
 Grid Search
 - allows to scan through multiple free parameters
@@ -462,16 +462,36 @@ Grid Search
     - a score function.
 - Process to select the hyperparameter:
     - split dataset into three parts: the `training set`, `validation set`, and `test set`.
+        - A *validation data set* is similar to a test data set, but it is used for selecting paramters. 
         - `Training set`: used during the learning process and is used to fit the parameters (e.g., weights) of the model
-        - `Validation Set`: used to tune the hyperparameters
-        - `Testing set`: used only to assess the performance of a fully-trained model. e.g. would use the test to estimate the error rate after we have chosen the final model. (MLP size and actual weights) After assessing the model model on the test set, YOU MUST NOT tune the model any further! At this point, we decide whether we need to restructure the model / go back to the drawing board. 
-        - https://stats.stackexchange.com/a/96869 
+        - `Validation Set`: used to tune the hyperparameters i.e. optimize model's architecture
+        - `Testing set`: evaluate the optimized model. Used only to assess the performance of a fully-trained model. e.g. would use the test to estimate the error rate after we have chosen the final model. (MLP size and actual weights) After assessing the model model on the test set, YOU MUST NOT tune the model any further! At this point, we decide whether we need to restructure the model / go back to the drawing board. 
+        - [Why seperate test and validation data sets? - Stackoverflow](https://stats.stackexchange.com/a/96869) 
         - https://towardsdatascience.com/train-validation-and-test-sets-72cb40cba9e7
     - train the model for different hyperparameters.
     - Use the R-squared or MSE for each model. Select the hyperparameter that minimizes the mean squared error or maximizes the R-squared on the validation set.
     - Finally test our model performance using the test data. 
+    - Another example of using `GridSearch` or `RandomSearch`, besides the lab, is [located here](https://towardsdatascience.com/hyperparameter-tuning-c5619e7e6624)
+
+```python
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import GridSearchCV
+parameters = [{'alpha':[0.001,0.1,1,10,100,1000,10000,100000]}]
+RR=Ridge()
+Grid = GridSearchCV(RR,paramters,cv=4) #cv is number of folds for cross-validation
+Grid.fit(x_data[[]'horsepower','curb-weight', 'engine-size', 'highway-mpg']], y_data)
+Grid.best_estimator_
+scores = Grid.cv_results_
+scores['mean_test_score']
+```
 
 
 - `np.reshape`: `-1` means to infer the dimension. Only 1 dimension can have -1. 
 - Ex. `np.reshape(-1,1)` can mean making data into a single column vector
 - https://numpy.org/doc/stable/reference/generated/numpy.reshape.html
+
+
+
+## Interesting Articles:
+- https://www.jeremyjordan.me/hyperparameter-tuning/
+    - Conceptually discusses hyper paramter tuning in Grid Search vs RandomSearch
