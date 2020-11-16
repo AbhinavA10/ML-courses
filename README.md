@@ -7,6 +7,7 @@ Courses:
 3. Machine Learning with Python https://www.coursera.org/learn/machine-learning-with-python 
 
 
+Jupyter Notebook Cheet sheet: https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ 
 
 ## Steps to run:
 - `conda env create --file environment.yml`

@@ -1,5 +1,5 @@
 # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file
-name: ml2
+name: ml
 channels:
   - defaults
 dependencies:
@@ -14,9 +14,12 @@ dependencies:
   # - tensorflow-estimator
   - pip:
     - ipywidgets
+    - folium # map visualization
     - jupyterlab
     - matplotlib==3.3.*
     - pandas==1.1.*
     # - scikit-image=0.16
     - scikit-learn==0.23.*
     - seaborn==0.11.*
+    - wordcloud # Data Visualization
+    - xlrd # Reading in Excel files into pandas
