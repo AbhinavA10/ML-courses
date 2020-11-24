@@ -4,11 +4,6 @@ These are some notes for the [Machine Learning with Python course](https://www.c
 
 # Week 1 - What is ML?
 
-Decision Trees can be built from historical data. 
-
-- can create segmentation models, recommender systems, 
-
-
 Major ML techniques:
 - Regression/Estimation: for prediciting continuous values
     - e.g. estimating price of house
@@ -35,14 +30,14 @@ Note: After data preprocessing, we often need to perform feature selection and f
 
 
 - ML algorithhimis benefit from standardization of dataset. e.g. can use sklearn.preprocessing.StandardScalar
-- can use svm.SVC as a classifier
-- sklearn.metrics has various metrics for determining performance of ML model on test data. e.g. `confusion_matrix`
+- can use `svm.SVC` as a classifier
+- `sklearn.metrics` has various metrics for determining performance of ML model on test data. e.g. `confusion_matrix`
 - can save sklearn models using `pickle`
+
 
 - column names are called `attributes`
 - columns are called `features`
 - rows are called `observations`
-- 
 
 ## Supervised vs unsupervised learning:
 
@@ -128,6 +123,11 @@ How to find coefficents for MLR?
 
 Using multiple independant variables can often give better results than SLR. But adding too many independant variables without any real theoretical justification can result in an overfit model (no longer general enough for unseen data)
 
+
+Explained variance regression score: `= 1- Var(y-y_hat)/Var(y)`
+- higher values are better
+
+
 ## Non-linear Regression
 
 ### Polynomial Regression
@@ -141,3 +141,5 @@ Using multiple independant variables can often give better results than SLR. But
     - e.g. `y= w_0 + w_1*w_2^x`
 - cannot use OLS to fit regression
 - estimation of paramters is not easy. 
+
+- for a a sigmoid function (as an example) we can use `scipy.optimize.curve_fit`, which uses non-linear least squares to fit a function, to the data.

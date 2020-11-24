@@ -188,6 +188,7 @@ Yhat=lm.predict(X)
 - for finding relationship between two or more predictor (X) variables, and one continuous target (Y) variable
 - SLR, extended to multiple dimensions and more coefficents.
 - finding the cofficents `b0,b1,b2,b3...` in `y= b0 + b1*x1 + b2*x2 + b3*x3`
+- Visually, we are finding coefficents of the hyperplane. (e.g., in 3D, which is 2 independant variables, we are looking for plane of best fit)
 
 ```python
 # Same as before, except X variable is now multiple dimensions:
@@ -309,6 +310,22 @@ E.g. of a Pipeline:
 1. Normalization (transform)
 2. Polynomial Transform (transform)
 3. Linear Regression (prediction)
+
+```python
+from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeature, StandardScaler
+
+Input=[('scale',StandardScaler()), ('polynomial', PolynomialFeatures(include_bias=False)), ('model',LinearRegression())]
+pipe=Pipeline(Input)
+# Z = df[['horsepower', 'curb-weight', 'engine-size', 'highway-mpg']]
+# y = df["price"]
+
+pipe.fit(Z,y)
+
+y_hat = pipe.predict(Z)
+```
+
 
 More good links:
 - https://stackoverflow.com/questions/33091376/python-what-is-exactly-sklearn-pipeline-pipeline
