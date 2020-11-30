@@ -178,6 +178,14 @@ Algorithim:
 
 Note: out-of-sample data can't be trusted to be used for prediction of unknown samples
 
+```python
+from sklearn.neighbors import KNeighborsClassifier
+# sklearn's KNN uses Euclidean distance by default
+neigh = KNeighborsClassifier(n_neighbors=3) 
+neigh.fit(X_train, y_train)
+yhat=neigh.predict(X_test)
+```
+
 ![Plot showing different values of K and their radius](https://res.cloudinary.com/dyd911kmh/image/upload/f_auto,q_auto:best/v1531424125/KNN_final_a1mrv9.png)
 
 There are two slight concerns here:
@@ -220,6 +228,10 @@ So how do we choose a value of `K` then?
 - Jaccard = size of intersection, divided by size of union
 - a.k.a `IoU = intersection / union`
 - higher is better
+
+```python
+from sklearn.metrics import jaccard_score¶
+```
 
 e.g.
 - `y=[0,0,0,0,0,1,1,1,1,1]`
