@@ -381,3 +381,69 @@ If `M`>2 (i.e. multiclass classification), we calculate a separate loss for each
 
 
 - https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html#loss-cross-entropy
+
+## Decision Trees
+- basic intuition behind a decision tree is to map out all possible decision paths in the form of a tree
+- built by spliting training set into distinct node. One node in a decision tree contains all or most of, one category of the data. 
+- basically a flowchart:
+    - each internal node is a 'test'
+    - each 'branch' is a result of the test
+    - each leaf node assigns a classification.
+
+e.g. Suppose we are predicting which of 2 drugs would be most appropriate for a new patient. A decision tree can be built from the data's attributes
+
+![A decision Tree](./imgs/decision_tree.png)
+
+### Building a decision tree
+A decision tree is built by considering the attirbutes / features of the data, 1 by 1
+1. Choose an attribute from your dataset
+2. Calculate the significance of attribute in splitting of data (this shows whether the attribute is effective)
+3. Split data based on the value of the best attribute
+4. Go to each branch and repeat from step 1 for the rest of the attributes
+
+- Decision Trees are built using recursive partioning to classify the data. 
+- choose the most predictive feature to split the data on. 
+    - the split should result in nodes that are more pure. (Nodes that are mostly one class or another)
+
+Attribute that results in a more _pure_ split are more **significant** or **predictive** than the other attributes. This means the nodes are less impure.
+- A node is considered _pure_ if 100% of the cases fall into the same category of a target class.
+- The method uses recursive partiionining to split training data into segments by miniziming impurity at each step. 
+- impurity of nodes are calculated by **entropy** of data in the node. 
+
+### Entropy 
+- measure of randomness or uncertainity
+- the lower the Entropy, the less uniform the distribution, and the purer the node.
+- used to calculate impurity at each node. We want impurity to decrease at each step in the tree. 
+- Node is homogenous (all data in node is of 1 target class) --> Entropy=0
+- Node has data that is evenly split between 2 classes --> Entropy=1
+
+`Entropy = -p(A)log(p(A))-p(B)log(p(B))`
+
+- `p(A)` = proportion / ratio of category e.g. `class A` in this case.
+- e.g. if there are 5 instances with target `A` and 9 of `B`, then `p(A)=5/14` and `p(B)=9/14`
+
+### How to know which attribute is the best to divide the dataset?
+
+![Multiple Decision tree possibilities](./imgs/tree_options.png)
+
+To answer this question, we try to answer the following:
+- which attribute results in purer nodes after the split
+- which tree do we have less entropy after splitting, rather then before splitting?
+
+Answer: The tree with the higher **Information Gain** after splitting is better. 
+
+### Information Gain
+- the information that can increase the level of certainity after splitting
+
+`Information Gain = (Entropy before split) - (weighted entropy after split)`
+- `(weighted entropy after split)` is weighted by porportion of samples falling into that leaf.
+- as impurity / entropy decreases, information gain increases
+
+Below is an example of calculating Information Gain
+
+![](./imgs/info_gain_calculation.png)
+
+Now we just recursively do this
+
+## Logistic Regression
+
