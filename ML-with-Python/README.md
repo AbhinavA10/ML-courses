@@ -389,6 +389,10 @@ If `M`>2 (i.e. multiclass classification), we calculate a separate loss for each
     - each internal node is a 'test'
     - each 'branch' is a result of the test
     - each leaf node assigns a classification.
+    
+```python
+from sklearn.tree import DecisionTreeClassifier
+```
 
 e.g. Suppose we are predicting which of 2 drugs would be most appropriate for a new patient. A decision tree can be built from the data's attributes
 
@@ -444,6 +448,27 @@ Below is an example of calculating Information Gain
 ![](./imgs/info_gain_calculation.png)
 
 Now we just recursively do this
+
+### Using Categorical data in Decision Trees
+
+Scikit-learn's `DecisionTreeClassifier` does not work with categorical data. To work with categorical data, we need to convert it into a numerical form using either: `LabelEncoder`, `OrdinalEncoder`, `OneHotEncoder`.
+
+[`LabelEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html) is meant for targets and is not meant to be used for features. Instead, use `OrdinalEncoder` or `OneHotEncoder`
+- we try to avoid using LabelEncoder since it implicitly shows a ranking/relation between labels of a feature, while this may not make sense in real life.
+- For data that has a ranking behaviour (e.g. low, medium high) --> use `OrdinalEncoder`. This maps ranked data to 0, 1, 2. 
+    - Similar to using a `LabelEncoder`
+- For data that is not ranked E.g. gender (M,F) --> use `OneHotEncoder`
+    - One hot encodes the data.
+    
+`pandas`'s `.get_dummies()` is another way to use get OneHotEncoded values.
+
+![Label vs One Hot Encoding](https://miro.medium.com/max/2736/0*T5jaa2othYfXZX9W.)
+
+Relevant links:
+- https://stackoverflow.com/questions/38108832/passing-categorical-data-to-sklearn-decision-tree 
+- https://stackoverflow.com/questions/47873366/can-sklearn-decisiontreeclassifier-truly-work-with-categorical-data
+- https://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features
+
 
 ## Logistic Regression
 
