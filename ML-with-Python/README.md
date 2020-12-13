@@ -471,4 +471,146 @@ Relevant links:
 
 
 ## Logistic Regression
+- classification algorithimn for categorical target variables
+- similar to LinearRegression, but tries to predict a discrete or categorical target field, instead of a continous numeric target. 
+    - target can be binary or multi-class classification
+    - e.g. "will customer switch services next term?" --> Target classes: "Yes, No"
+- independant variables need to be continous / numeric. If data is categorical, it needs to be converted to dummy or indicator coded (OneHotEncoded or LabelEncoded).
+    - we also encode the target variables to a numerical value (e.g. 0, or 1 for binary classification).
+- returns a probability score in range `[0,1]` for a given sample of data. Then , maps results of probability to a discrete clas
 
+In further notes below, binary classification is discussed.
+
+![Linear Decision Boundary](./imgs/Logistic-regression.png)
+
+### Applications of LogisiticRegression
+- prediciting probability of person having a heart attack in a specified time period
+- predict mortality in injured patients, or probability of having a disease
+- predict customer's probability to purchase a new product or cancel a subscription
+- predict probability of failure
+- predict likelihood of homeowner defaulting on mortgage.
+
+In all these examples, not only do we predict the class of each case, but we also predict the probability of a case belonging to a specific class. 
+
+
+### When should Logisitic Regression be used?
+- if target field is categorical, or binary. e.g 0/1, Yes/No
+- if we need probabilistic results / need the probability of our prediction (target variable is "probability of ....")\
+- if data is linearly seperable / when you need a linear decision boundary
+    - Decision boundary of LogisiticRegression is a hyperplane.  
+    - Decision boundary may also be polynomial. [Example pf circular decision boundary - Andrew Ng](https://youtu.be/F_VG4LNjZZw?t=856)
+- for understanding impact of a feature on the target variable
+    - coefficents on features that are approx. `= 0` show the features are not that statstically significant. They don't much impact on the target variable.
+
+### Logistic Regression vs. Linear Regression
+
+`y_hat = P(y=1|x)` --> i.e. y_hat = probability that output target labels vector = 1 for input row `x`
+
+Suppose we try to do Linear Regression to predict categorical target variable.
+
+Example: predicting whether customer churn exists, using their age. If we input 13, we can see an ouput of approximately 0.3. 
+
+![](./imgs/LinearRegression-Categorical.png)
+
+To be able to use the equation of the line found through regression, we will need to map outputs of the line, to categories. One way to do this, is using a unit-step function to map inputs to `[0,1]` Let's say our threshold is 0.5.
+
+![](./imgs/yhat_unit-step.png)
+
+Among other problems with this, we also can't state the probability of an output class. Instead of unit step function, we can use the sigmoid function. Then, `y_hat = sigmoid(Theta^T*X) = P(y=1|x)` 
+
+### Logistic / Sigmoid Function
+
+Below is the Sigmoid equation. In this, `x = Theta^T*X` for us
+
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/9537e778e229470d85a68ee0b099c08298a1a3f6)
+
+As `S(x) --> 1`, `P(y=1|x) --> 1`
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/600px-Logistic-curve.svg.png)
+
+### Training Process
+
+Output of a logistic regression model is probability that `x` belongs to a class. So we will try to increase accuracy of predicting the probability correctly. 
+
+1. Initialize vector theta, with random values
+2. Calculate `y_hat = sigmoid(Theta^T*X) = P(y=1|x)` for an input customer with features in `x` vector
+3. Compare output of `y_hat` with actual ouput of customer `y` and record as error
+4. Do Steps 2,3 for all customers. Add up the errors. Total error = cost of model 
+    - Cost = J(theta) = Sum of errors
+5. Change theta to reduce cost
+6. Repeat from step 2. 
+
+Usually, MSE is used for cost function. However, there would not be an easy way to find the global minimum of a MSE function involving the sigmoid equation. Instead, we use another cost function.
+
+
+If desirable y = 1, we use
+
+![](https://latex.codecogs.com/png.latex?%5Ctext%7BCost%7D%28%5Chat%7By%7D%2Cy%29%20%3D%20-%5Clog%7B%28%5Chat%7By%7D%29%7D)
+
+If desirable y = 0, we use
+
+![](https://latex.codecogs.com/png.latex?%5Ctext%7BCost%7D%28%5Chat%7By%7D%2Cy%29%20%3D%20-%5Clog%7B%281-%5Chat%7By%7D%29%7D)
+
+The total cost function for Logistic Regression is then,
+![](./imgs/Logistic-regression-cost.png)
+
+In the above, `h_theta(x_i)` is `y_hat_i = sigmoid(Theta^T*X_i) `. The equation for `J(Theta)` penalizes situations where expected class is 0 and model output is actually 1, and vice versa. Remember, `y_hat` is not a class, but a value indicating probability between 0 and 1. 
+
+To find the best parameters of the model, we minimize the cost function using `Gradient Descent`.
+
+Gradient Descent
+- a technique that uses derivative of cost function to change paramater values in order to minimize cost.
+- need to calculate gradient of the cost function, at the current point. (Recall from multivariable calc, a `gradient` shows direction of greatest increase. The negative is then direction of steepest decrease)
+
+We then update new values of theta using the following equation:
+
+![](https://latex.codecogs.com/png.latex?%5Ctext%7BNew%7D%5Ctheta%20%3D%20%5Ctext%7Bold%7D%5Ctheta%20-%20%5Ceta%20%5Cnabla%20J)
+
+`nu` is the learning rate, which gives us control on how fast to move on the surface. Essentially, gradient gives us direction and learning rate scales the change in addition to the amount that gradient says to change by. 
+
+![Animation of Gradient Descent](./imgs/gradient-descent-animation.gif)
+
+![](./imgs/grad_descent_course.png)
+
+![](./imgs/grad_descent_training_loop.png)
+
+When do we stop iterations?
+- We stop training when the model has reached a satisfactory accuracy. Possibly through adding a callback, or a stopping point. 
+
+
+### Mutliclass classification
+
+This is just an extension of binary classification and can be done with 1 of the following approaches:
+
+#### One vs. all (One vs. Rest)
+- If we have to classify between 3 classes, we treat the problem as 3 seperate *binary* classification problems. 
+    - We create 3 classifiers. Each classifier predicts 1 class vs. the rest
+    - For predicting class of new input, we run the input through each classifier and pick the class with the highest probability. 
+- [Andrew Ng's lesson](https://www.youtube.com/watch?v=DuXmFxDSc9U)
+
+![](./imgs/Logistic-regression-Andrew-Ng.jpeg)
+
+In the above image, "Probability that `y=i`" means the probability that output class is the expected class. 
+
+#### Multinomial classification
+An alternative is to use multinomial classification. i.e. uses softmax function instead of sigmoid, and cross-entropy loss for total cost function
+
+### Scikit-Learn implementation.
+
+```python
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression(multi_class='ovr')
+model.fit(X, y)
+```
+
+The `LogisticRegression` has a parameter to choose between One-Vs.-Rest and Multinomial classification. See the [sklearn documentation](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).
+
+Another scikit learn method for doing OVR is the [OVR strategy](https://scikit-learn.org/stable/modules/multiclass.html#ovr-classification), also shown in [this article](https://machinelearningmastery.com/one-vs-rest-and-one-vs-one-for-multi-class-classification/)
+
+```python
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+# define the ovr strategy
+ovr = OneVsRestClassifier(model)
+```

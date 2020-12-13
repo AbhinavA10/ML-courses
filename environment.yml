@@ -7,7 +7,7 @@ dependencies:
   - numpy=1.19.*
   - pandoc
   - pip
-  - python=3.8
+  - python=3.9
   - python-graphviz
   - scipy=1.5.*
   # - tensorflow-gpu
