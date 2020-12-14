@@ -29,7 +29,7 @@ Note: After data preprocessing, we often need to perform feature selection and f
 ![](./imgs/ML_pipeline.png)
 
 
-- ML algorithhimis benefit from standardization of dataset. e.g. can use sklearn.preprocessing.StandardScalar
+- ML algorithms benefit from standardization of dataset. e.g. can use `sklearn.preprocessing.StandardScaler`
 - can use `svm.SVC` as a classifier
 - `sklearn.metrics` has various metrics for determining performance of ML model on test data. e.g. `confusion_matrix`
 - can save sklearn models using `pickle`
