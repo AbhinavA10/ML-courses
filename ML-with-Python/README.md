@@ -614,3 +614,16 @@ model = LogisticRegression()
 # define the ovr strategy
 ovr = OneVsRestClassifier(model)
 ```
+## Support Vector Machine
+
+- classifier
+- SMV is a supervised algorithim that classifies cases by finding a seperator
+
+Works by:
+1. Mapping data to a high-dimensional feature space (so data points can be categorized, even when the data are not otherwise linearly seperable)
+2. Finding a seperator. (Seperator is estimated for the data)
+- data should be transformed that a seperator can be drawn as a hyperplane
+
+
+
+Mapping daata into a higher dimensional space in such a way that can change a linearly inseperable data set into a linearly seperatable dataset is **kernelling**
