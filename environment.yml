@@ -10,10 +10,7 @@ dependencies:
   - python=3.9
   - python-graphviz
   - scipy=1.5.*
-  # - tensorflow-gpu
-  # - tensorflow
-  # - tensorboard
-  # - tensorflow-estimator
+  # - tensorflow=2.4.*
   - pip:
     - ipywidgets
     - folium
