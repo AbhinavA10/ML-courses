@@ -214,14 +214,117 @@ model.fit(predictors,target, epochs=10) # train
 
 predictions = model.predict(test_data) # make new predictions
 # Outputs would be probabilities of the input belonging in a given class (one hot encoded)
-
 ```
 
+# Week 4 - Deep Learning Models
 
-Week 4 - Deep Learning Models
+## Shallow and Deep Neural Networks
 
-    Shallow and Deep Neural Networks
-    Convolutional Neural Networks
-    Recurrent Neural Networks
-    Autoencoders
-    CNN with Keras
+Shallow Neural Network:
+- neural network with few (1) hidden layers
+- takes only vector inputs
+- doesnt improve after training on a certain amount of data
+
+Deep Neural Network:
+- network with many hidden layers and large number of neurons in each layer
+- able to take raw data - e.g. images and text - and automatically extract features to learn the data
+- work best with very large amounts of data - the more data you have, the better
+
+## Convolutional Neural Networks
+- supervised deep learning model
+- CNN are similar to the typical neural networks
+    - made up of neurons, which have weights and biases that need to be optimized. Each neuron combines the inputs that it receives by computing the dot product between each input and the corresponding weight before it fits the resulting total input into an activation function
+- inputs are images, and this assumption lets us incorporate certain properties into the architecture
+    - These properties make the forward propagation step much more efficient and vastly reduces the amount of parameters in the network.
+- best for computer vision applications e.g. image recognition, object detection.
+
+Typical CNN Architecture: 
+
+![CNN](./imgs/cnn_architecture.png)
+
+### Input Layer
+- Input is a `n x m x 3` for coloured images (3 for RGB)
+
+### Convolution Layer
+- we define fixed filters, and compute the convolution between the filters and each of the three images (moving one stride/cell at a time)
+- the more filters we use, the better we can preserve the spatial dimension.
+- has ReLUs which filter the output of the convolutional step to pass only positive values.
+
+Why use convolution instead of flattening the image into a (nxm)x1 vector?
+- if flattening the image, we would end up with huge number of parameters (weights, bias) that need to be optimized.
+- decreasing the number of parameters also helps reduce overfitting
+
+### Pooling Layer
+- reduces spatial dimension of data propagating through the network
+
+Types of Pooling
+- Max Pooling (most common)
+    - For each section of the image we scan, we keep the highest value
+    - provides spatial variance, enabling the neural network to recognize objects in an image even if the object does not exactly resemble the original object
+- Average Pooling
+    - For each section of the image we scan, we keep the average value
+
+Max Pooling
+![Max Pooling](https://media.geeksforgeeks.org/wp-content/uploads/20190721025744/Screenshot-2019-07-21-at-2.57.13-AM.png)
+
+### Fully Connected Layer
+- flatten output of last Convulational layer, and connect every node of the current layer, with every node of the next layer (dense)
+- input: output from previous convolutional, ReLU, or Pooling layer
+- output: an `n`-dimensional vector, where `n` is number of classes being classified
+
+## CNN with Keras
+- training and testing of a CNN in Keras, is the same as a typical NN
+
+```python
+model = Sequential()
+
+input_shape = (128,128,3) # Size of input image, 128px by 128px RGB (3 channels)
+# Add a convolutional layer with 16 filters, each of size 2x2
+model.add(Conv2D(16,kernel_size=(2,2),strides=(1,1),
+                activation='relu',
+                input_shape=input_shape))
+# Pooling Layer
+model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+model.add(Conv2D(32,kernel_size=(2,2),strides=(1,1),
+                activation='relu',))
+model.add(MaxPooling2D(pool_size=(2,2)))
+
+model.add(Flatten()) # Flatten previous layer's output for the fully connected layer
+model.add(Dense(100,activation='relu'))
+model.add(Dense(n,activation='softmax')) # n = number of output classes
+# Output layer above outputs probabilities of each class, summing to 1
+          
+```
+
+## Recurrent Neural Networks
+- supervised deep learning model
+- take new input and previous output as another input, at the same time
+    - e.g scenes in a movie are not indepedant data points, but are related
+- networks with loops
+- very good at modelling patterns and sequences of data, such as texts, genomes, handwriting, and stock markets, etc.
+- has a temporal dimension (take time and sequence of data into account)
+
+### LSTM
+- Long Short-Term Memory Model is an e.g. of a popular RNN
+- Applications:
+    - image generation, handwriting generation, automatic image capitioning, automatic video description
+
+## Autoencoders
+- unsupervised deep learning model
+- Autoencoding is a data compression algorithm where the compression and the decompression functions are learned automatically from data
+- Autoencoders are data specific, which means that they will only be able to compress data similar to what they have been trained on
+- Interesting Applications: Data denoising, Dimensionality reduction for data visualization
+
+Autoencoder architecture:
+![Autoencoder](./imgs/autoencoder.png)
+
+- e.g. takes image as input, uses an encoder to find optimal compressed representation, then using a decoder the original image is restored
+- uses backpropagation by setting target variable to be the same as the input i.e. tries to learn an approximation of an identity function
+- PCA etc. can handle only linear transformations. Since activiation functions in NN are non-linear, autoencoder can learn more interesting data projections
+
+### Restricted Boltzmann Machines (RBMs)
+- popular type of Autoencoder
+- Applications:
+    - fixing imbalanced datasets (learn distribution of the minority classcan then can generate similar data for the class)
+    - Estimating missing values in a data set
+    - Automatic feature extraction - espeically unstructured data
