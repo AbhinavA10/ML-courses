@@ -2,14 +2,14 @@
 Data Science Courses
 
 Courses:
-1. Data Analysis with Python: https://www.coursera.org/learn/data-analysis-with-python 
-2. Data Visualization with Python https://www.coursera.org/learn/python-for-data-visualization
-3. Machine Learning with Python https://www.coursera.org/learn/machine-learning-with-python
-4. Introduction to Deep Learning & Neural Networks with Keras https://www.coursera.org/learn/introduction-to-deep-learning-with-keras
-5. Building Deep Learning Models with TensorFlow https://www.coursera.org/learn/building-deep-learning-models-with-tensorflow
+1. [Data Analysis with Python](https://www.coursera.org/learn/data-analysis-with-python)
+2. [Data Visualization with Python](https://www.coursera.org/learn/python-for-data-visualization)
+3. [Machine Learning with Python](https://www.coursera.org/learn/machine-learning-with-python)
+4. [Introduction to Deep Learning & Neural Networks with Keras](https://www.coursera.org/learn/introduction-to-deep-learning-with-keras)
+5. [Building Deep Learning Models with TensorFlow](https://www.coursera.org/learn/building-deep-learning-models-with-tensorflow)
 
 
-Jupyter Notebook Cheet sheet: https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ 
+[Jupyter Notebook Cheat sheet](https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ )
 
 ## Steps to run:
 - `conda env create --file environment_ml.yml` or `conda env create --file environment_dl.yml`
