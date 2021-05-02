@@ -4,6 +4,13 @@ This course was pretty basic. The videos didn't cover much more than already cov
 
 I also used this course to learn more about visualization techniques on my own. 
 
+## Table of Contents:
+- [Data Visualization with Python](#data-visualization-with-python)
+  * [Pandas GroupBy](#pandas-groupby)
+- [Week 1 - Introduction to Data Visualization Tools](#week-1---introduction-to-data-visualization-tools)
+- [Week 2 - Basic and Specialized Visualization Tools](#week-2---basic-and-specialized-visualization-tools)
+- [Week 3 - Advanced Visualizations and Geospatial Data](#week-3---advanced-visualizations-and-geospatial-data)
+
 https://python-graph-gallery.com/
 - This site is a collection of good graphs made with seaborn, matplotlib, etc. with reference code. 
 

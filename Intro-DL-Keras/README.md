@@ -2,13 +2,44 @@
 
 These are some notes for the [Introduction to Deep Learning & Neural Networks with Keras](https://www.coursera.org/learn/introduction-to-deep-learning-with-keras), meant to accompany the ipython notebooks
 
- 
+## Table of Contents:
+- [Introduction to Deep Learning & Neural Networks with Keras](#introduction-to-deep-learning---neural-networks-with-keras)
+- [Week 1 - Introduction to Deep Learning](#week-1---introduction-to-deep-learning)
+  * [Biological Neural Networks](#biological-neural-networks)
+  * [Artificial Neural Networks](#artificial-neural-networks)
+  * [Forward Propagation](#forward-propagation)
+- [Week 2 - Artificial Neural Networks](#week-2---artificial-neural-networks)
+  * [Gradient Descent](#gradient-descent)
+  * [Backpropagation](#backpropagation)
+  * [Vanishing Gradient Problem](#vanishing-gradient-problem)
+  * [Activation Functions](#activation-functions)
+    + [Sigmoid function](#sigmoid-function)
+    + [Hyperbolic tangent function](#hyperbolic-tangent-function)
+    + [ReLU](#relu)
+    + [Softmax function](#softmax-function)
+- [Week 3 - Deep Learning Libraries](#week-3---deep-learning-libraries)
+  * [Keras](#keras)
+  * [Regression Models with Keras](#regression-models-with-keras)
+  * [Classification Models with Keras](#classification-models-with-keras)
+- [Week 4 - Deep Learning Models](#week-4---deep-learning-models)
+  * [Shallow and Deep Neural Networks](#shallow-and-deep-neural-networks)
+  * [Convolutional Neural Networks](#convolutional-neural-networks)
+    + [Input Layer](#input-layer)
+    + [Convolution Layer](#convolution-layer)
+    + [Pooling Layer](#pooling-layer)
+    + [Fully Connected Layer](#fully-connected-layer)
+  * [CNN with Keras](#cnn-with-keras)
+  * [Recurrent Neural Networks](#recurrent-neural-networks)
+    + [LSTM](#lstm)
+  * [Autoencoders](#autoencoders)
+    + [Restricted Boltzmann Machines (RBMs)](#restricted-boltzmann-machines--rbms-)
+
 # Week 1 - Introduction to Deep Learning
 
 
 Example Applications of Deep Learning
 - Colorizing grayscale pictures
-- Speech reenactment - synchronzing lip momvments in a video with an audio clip
+- Speech reenactment - synchronzing lip movements in a video with an audio clip
 - Automatic Handwriting Generation (typed text to human handwriting)
 - OCR
 - Automatically adding sounds to silent movies
@@ -32,7 +63,7 @@ Axon
 Learning in the brain occurs by repeatedly activating certain neural connections over others, and this reinforces those connections. This makes them more likely to produce a desired outcome given a specified input. Once the desired outcome occurs, the neural connections causing that outcome become strengthened.
 
 ## Artificial Neural Networks
-- structured similarily to biological neurons: many inputs/dendrites, a 'nucleus', and a single output / axon.
+- structured similarly to biological neurons: many inputs/dendrites, a 'nucleus', and a single output / axon.
 
 Layers of Neural Network:
 
@@ -40,11 +71,11 @@ Layers of Neural Network:
 
 ## Forward Propagation
 - process through which data passes through layers of neurons in a neural network from the input layer to the output layer
-- neuron output = (linear wieghted sum of inputs + bias) mapped to non linear space using activiation function
+- neuron output = (linear weighted sum of inputs + bias) mapped to non linear space using activation function
 
 Activation function:
 - non linear transformation function (e.g. sigmoid function)
-- decide whether a neuron should be activated or not, i.e. whether the info the neuron is recieving is relevant or not.
+- decide whether a neuron should be activated or not, i.e. whether the info the neuron is receiving is relevant or not.
 - neural network without activation function is basically just a linear regression model (`y = x1*w1+x2*w2+b1`)
 
 # Week 2 - Artificial Neural Networks
@@ -55,10 +86,10 @@ First we define a cost function
 
 Then the optimized weights in the the cost function (minimizing it) are found through *Gradient Descent*
 
-- iterative optimization algoritihim for finding minimum of a function (cost function `f(x)`)
+- iterative optimization algorithm for finding minimum of a function (cost function `f(x)`)
 - take steps proportional to negative of the gradient of `f(x)` at the current point (recall Calc 3 / MTE 203)
 - size of step is controlled by `learning rate` parameter (eta) -- larger learning rate = bigger steps
-- new weights = current weights - learning rate * gradient of cost function @ current wieghts
+- new weights = current weights - learning rate * gradient of cost function @ current weights
 
 ![Gradient Descent](https://latex.codecogs.com/gif.latex?%5Ctext%7Bnew%20%7Dw_i%20%3D%20%5Ctext%7Bold%20%7Dw_i%20-%20%5Ceta%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20w_i%7D%20%5Cmid%20%5Ctext%7B@%20old%20%7Dw_i)
 
@@ -67,7 +98,7 @@ Then the optimized weights in the the cost function (minimizing it) are found th
 - this is how NN optimize and learn their weights and biases, through multiple iterations / epochs
 - (training is done in supervised learning setting)
 
-Algorithim:
+Algorithm:
 1. Calculate the error (E) between the predicted values and the ground truth labels
     - error = cost function now
     - error usually is MSE, of all predicated outputs compared to all expected ground truths
@@ -75,21 +106,21 @@ Algorithim:
 
 ![Equation for BackPropagation](https://latex.codecogs.com/png.latex?%5C%5C%20w_i%20%5Crightarrow%20w_i%20-%20%5Ceta%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20w_i%7D%20%5C%5C%20%5C%5C%20%5C%5C%20b_i%20%5Crightarrow%20b_i%20-%20%5Ceta%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20b_i%7D)
 
-![Algorithim](./imgs/backpropagation.png)
+![Algorithm](./imgs/backpropagation.png)
 
 But error is not explicitly a function of w_i or b_i ==> use Chain Rule
 
 ![Chainrule](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20w_3%7D%20%3D%20%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20a_3%7D%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20a_3%7D%7B%5Cpartial%20z_3%7D%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20z_3%7D%7B%5Cpartial%20a_2%7D%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20a_2%7D%7B%5Cpartial%20z_1%7D%20%5Ccdot...%20%5Ccdot%20%5Cfrac%7B%5Cpartial%20z_1%7D%7B%5Cpartial%20w_1%7D)
 
 
-![Training Algorithim](./imgs/training_algo.png)
+![Training Algorithm](./imgs/training_algo.png)
 
 
 ## Vanishing Gradient Problem
 - shortcoming of sigmoid function when used as activation function in the hidden layers of deep networks.
 - Gradient of cost function (error) to weights in the earlier layers are very small, since every layer uses the sigmoid function
 - Thus neurons in the earlier layers are the slowest to train/learn.
-- So, we don't use sigmoid function as activiation functions, since they are prone to vanishing graident problem.
+- So, we don't use sigmoid function as activation functions, since they are prone to vanishing gradient problem.
 
 ## Activation Functions
 
@@ -105,7 +136,7 @@ Types of Activation Functions
 Generally, should begin with using the ReLU activation function when building a model, and then switch to other activation functions in case ReLU doesn't yield optimum results.
 
 ### Sigmoid function 
-- pretty flat beyond +-3 reigon ==> small gradient ==> vanishing gradient problem
+- pretty flat beyond +-3 region ==> small gradient ==> vanishing gradient problem
 - avoided in many applications nowadays
 - values range from 0 to 1 ==> sigmoid is not symmetric about the origin.
     - sometimes we want different signs for the output of a neuron.
@@ -122,7 +153,7 @@ Generally, should begin with using the ReLU activation function when building a 
 ![tnah graph](./imgs/tanh.png)
 
 ### ReLU
-- most widely used activiation function
+- most widely used activation function
 - non-linear
 - does not activate all the neurons at the same time --- if input < 0, neuron will not be activated ==> network will have sparse connections
 - overcomes vanishing gradient problem
@@ -134,7 +165,7 @@ Generally, should begin with using the ReLU activation function when building a 
 - type of sigmoid function
 - good for classification problems
 - ideally used in the output layer of the classifier, where we're actually trying to get the probabilities to get the class of each input.
-    - If a network with 3 neurons in the ouput layer outputs `[z1,z2,z3] = [1.66,0.55,0.98]`, with a softmax activation function, the outputs are converted to `[a1,a2,a3] = [0.51,0.18,0.31]`
+    - If a network with 3 neurons in the output layer outputs `[z1,z2,z3] = [1.66,0.55,0.98]`, with a softmax activation function, the outputs are converted to `[a1,a2,a3] = [0.51,0.18,0.31]`
     
     
 ![Softmax](https://latex.codecogs.com/gif.latex?a_i%20%3D%20%5Cfrac%7Be%5E%7Bz_i%7D%7D%7B%5CSigma%5E%7Bm%7D_%7Bk%3D1%7De%5E%7Bz_k%7D%7D)
@@ -174,7 +205,7 @@ model.add(Dense(5,activation='relu',input_shape=(n_cols,)) # first hidden layer
 model.add(Dense(5,activation='relu')) # second hidden layer
 model.add(Dense(1) # output layer
 
-# Adam is more efficent than Gradient Descent, and can be used here instead
+# Adam is more efficient than Gradient Descent, and can be used here instead
 # Adam does not need a `learning rate` - saves us having to optimize the learning rate for our model
 # We will use MSE as the cost function (MSE is for regression)
 model.compile(optimizer = 'adam', loss='mean_squared_error') # Setup model parameters
@@ -223,7 +254,7 @@ predictions = model.predict(test_data) # make new predictions
 Shallow Neural Network:
 - neural network with few (1) hidden layers
 - takes only vector inputs
-- doesnt improve after training on a certain amount of data
+- doesn't improve after training on a certain amount of data
 
 Deep Neural Network:
 - network with many hidden layers and large number of neurons in each layer
@@ -299,7 +330,7 @@ model.add(Dense(n,activation='softmax')) # n = number of output classes
 ## Recurrent Neural Networks
 - supervised deep learning model
 - take new input and previous output as another input, at the same time
-    - e.g scenes in a movie are not indepedant data points, but are related
+    - e.g scenes in a movie are not independent data points, but are related
 - networks with loops
 - very good at modelling patterns and sequences of data, such as texts, genomes, handwriting, and stock markets, etc.
 - has a temporal dimension (take time and sequence of data into account)
@@ -307,7 +338,7 @@ model.add(Dense(n,activation='softmax')) # n = number of output classes
 ### LSTM
 - Long Short-Term Memory Model is an e.g. of a popular RNN
 - Applications:
-    - image generation, handwriting generation, automatic image capitioning, automatic video description
+    - image generation, handwriting generation, automatic image captioning, automatic video description
 
 ## Autoencoders
 - unsupervised deep learning model
@@ -320,11 +351,11 @@ Autoencoder architecture:
 
 - e.g. takes image as input, uses an encoder to find optimal compressed representation, then using a decoder the original image is restored
 - uses backpropagation by setting target variable to be the same as the input i.e. tries to learn an approximation of an identity function
-- PCA etc. can handle only linear transformations. Since activiation functions in NN are non-linear, autoencoder can learn more interesting data projections
+- PCA etc. can handle only linear transformations. Since activation functions in NN are non-linear, autoencoder can learn more interesting data projections
 
 ### Restricted Boltzmann Machines (RBMs)
 - popular type of Autoencoder
 - Applications:
     - fixing imbalanced datasets (learn distribution of the minority classcan then can generate similar data for the class)
     - Estimating missing values in a data set
-    - Automatic feature extraction - espeically unstructured data
+    - Automatic feature extraction - especially unstructured data

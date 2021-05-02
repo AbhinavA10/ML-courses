@@ -4,6 +4,38 @@ These are some notes for the [Building Deep Learning Models with TensorFlow](htt
 
 The labs in this course cover the low-level TensorFlow API, rather than using Keras.
 
+## Table of Contents
+* [Overview:](#overview-)
+- [Week 1 - Introduction to TensorFlow](#week-1---introduction-to-tensorflow)
+  * [Tensors](#tensors)
+  * [Data Flow Graph](#data-flow-graph)
+  * [Changes in TensorFlow 2.x](#changes-in-tensorflow-2x)
+  * [Introduction to Deep Learning](#introduction-to-deep-learning)
+  * [Deep Neural Networks](#deep-neural-networks)
+    + [CNN](#cnn)
+    + [RNN](#rnn)
+    + [RBM](#rbm)
+    + [Deep Belief Networks (DBN)](#deep-belief-networks--dbn-)
+- [Week 2 - Convolutional Neural Networks (CNNs)](#week-2---convolutional-neural-networks--cnns-)
+  * [CNN Architecture](#cnn-architecture)
+- [Week 3 - Recurrent Neural Networks (RNNs)](#week-3---recurrent-neural-networks--rnns-)
+  * [The Sequence Problem](#the-sequence-problem)
+  * [The RNN Model](#the-rnn-model)
+    + [Types of Applications of RNN:](#types-of-applications-of-rnn-)
+    + [RNN Problems](#rnn-problems)
+  * [The LSTM Model](#the-lstm-model)
+    + [Training Process](#training-process)
+  * [Applying RNNs to Language Modelling](#applying-rnns-to-language-modelling)
+    + [Word embedding](#word-embedding)
+- [Week 4 - Restricted Boltzmann Machines (RBMs)](#week-4---restricted-boltzmann-machines--rbms-)
+  * [Learning Process](#learning-process)
+  * [Why use RBMs?](#why-use-rbms-)
+- [Week 5 - Autoencoders](#week-5---autoencoders)
+  * [Curse of Dimensionality](#curse-of-dimensionality)
+  * [Comparison against PCA for dimensionality reduction](#comparison-against-pca-for-dimensionality-reduction)
+  * [Architecture](#architecture)
+  * [Learning Process](#learning-process-1)
+
 ## Overview:
 
 Shallow neural networks cannot easily capture relevant structure in, for instance, images, sound, and textual data. Deep networks are capable of discovering hidden structures within this type of data. 
@@ -23,7 +55,7 @@ Course Outcomes:
 
 ## Tensors
 What is a Tensor?
-- multi dimesnional array
+- multi dimensional array
 
 For an image - we have a tensor of size (height x width x channels)
 
@@ -86,8 +118,8 @@ Applications:
 - Topic modelling
 
 ### Deep Belief Networks (DBN)
-- built ontop of RBMs - stacking multiple RBMs
-- was invented to solve back-propogation vanishing gradient problem.
+- built on top of RBMs - stacking multiple RBMs
+- was invented to solve back-propagation vanishing gradient problem.
 - generally used for classification / image recognition
 - very accurate discriminative classifier, and does not need a lot of data to train
 
@@ -96,10 +128,10 @@ Applications:
 
 ## CNN Architecture
 - kernel === filter used in convolution
-- applying multiple kernels to the image, results in mutliple convolved images
+- applying multiple kernels to the image, results in multiple convolved images
 - leveraging different kernels, allows us to find different patterns in an image (e.g. edges, curves, etc.)
 - output of convolution is called "feature map"
-- typically, you intialize the kernel with random values. Then during the training phase, the kernel will be optimized in such a way to predict the proper output (learning)
+- typically, you initialize the kernel with random values. Then during the training phase, the kernel will be optimized in such a way to predict the proper output (learning)
 - kernel is essentially the weights between the layers of neurons in a regular Neural Network
 - Pooling layer is used to reduce dimensionality of previous layer's ReLU neurons
 - The Fully connected layers take the high-level filtered images from the previous layer and convert them into a vector
@@ -130,7 +162,7 @@ During training, a CNN learns the weights (**kernels**!) and biasses between the
 ## The RNN Model
 - tool for modelling sequential data
 - remembers state/context/previous analysis
-- the state recurrs back in as an input
+- the state recurs back in as an input
 
 ![](./imgs/rnn_model.png)
 
@@ -159,7 +191,7 @@ During training, a CNN learns the weights (**kernels**!) and biasses between the
 - LSTM keeps 2 infos as it propagates through time
     - hidden state: the memory the LSTM accumulates using its gates through time
     - previous time step output
-- stacked lstm can create a more complex feature representation of the current input (makes model deeper and leads to more accurate results)
+- stacked LSTM can create a more complex feature representation of the current input (makes model deeper and leads to more accurate results)
 
 LSTM Unit
 
@@ -178,7 +210,7 @@ Stacked LSTMs
 During training, the network learns the weights and biases used in each gate for each layer. In detail, it learns:
 - how much old information to forget, through the Forget gate (weights `Wf`, `bf`)
 - how much new information (`x`) to incorporate, through the Input gate (weights `Wi`, `bi`)
-- wieghts for calculation of new state based on current input and previous state(weights `Wh`, `bh`)
+- weights for calculation of new state based on current input and previous state(weights `Wh`, `bh`)
 - how much of cell state to output to the Output gate
 
 Parameters updated during training an LSTM
@@ -187,7 +219,7 @@ Parameters updated during training an LSTM
 
 ## Applying RNNs to Language Modelling
 
-Language modelling is a gateway to applications such as Speech recognition, Machine Translation, Image capitioning
+Language modelling is a gateway to applications such as Speech recognition, Machine Translation, Image captioning
 
 Language Modeling is the process of assigning probabilities to sequences of words. 
 - e.g. next word prediction
@@ -258,13 +290,13 @@ Training Process:
 ## Why use RBMs?
 - they excel when working with unlabeled data. Many real word data are unlabelled e.g. images, audio files.
 - they extract important features from the input
-- more efficent at Dimensionality Reduction than PCA
+- more efficient at Dimensionality Reduction than PCA
 
 # Week 5 - Autoencoders
 
 - unsupervised neural net that will find patterns in dataset by extracting key features. e.g. key points in a face for arbitrary task (e.g. detecting emotion later), by recreating the given input
 - used for Feature Extraction, Data Compression, **Learning generative models of data**, dimensionality reduction
-- can extract key image features, improve training times of other networks (through reducing # of dimensions), and improve seperability of dimensionally-reduced datasets compared to PCA
+- can extract key image features, improve training times of other networks (through reducing # of dimensions), and improve separability of dimensionally-reduced datasets compared to PCA
 
 ## Curse of Dimensionality
 - High dimensional data is a problem for ML tasks
@@ -275,7 +307,7 @@ Time to fit a model is at best:
 
 ## Comparison against PCA for dimensionality reduction
 
-The below image shows PCA (left) and Autoencoder (right) applied to the MNIST dataset, for reducing it to 2 dimensions. We see the data is more seperable from the autoencoder output
+The below image shows PCA (left) and Autoencoder (right) applied to the MNIST dataset, for reducing it to 2 dimensions. We see the data is more separable from the autoencoder output
 
 Data output on MNIST digits: 
 

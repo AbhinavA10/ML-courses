@@ -2,13 +2,37 @@
 
 These are some notes for the [Data Analysis with Python course](https://www.coursera.org/learn/data-analysis-with-python), meant to accompany the ipython notebooks
 
+## Table of Contents:
+- [Data Analysis with Python](#data-analysis-with-python)
+- [Week 1 - Intro](#week-1---intro)
+- [Week 2 - Data Wrangling](#week-2---data-wrangling)
+- [Week 3 - Exploratory Data Analysis](#week-3---exploratory-data-analysis)
+  * [Visualizations](#visualizations)
+- [Week 4 - Model Development](#week-4---model-development)
+  * [Simple Linear Regression (SLR)](#simple-linear-regression--slr-)
+  * [Multiple Linear Regression](#multiple-linear-regression)
+  * [Model Evaluation using Visualization](#model-evaluation-using-visualization)
+    + [Regression Plot:](#regression-plot-)
+    + [Residual plot:](#residual-plot-)
+    + [Distribution Plot](#distribution-plot)
+  * [Polynomial Regression and Pipelines](#polynomial-regression-and-pipelines)
+  * [Measuring In-sample evaluation (Numerical model evaluation)](#measuring-in-sample-evaluation--numerical-model-evaluation-)
+  * [Prediction and Decision Making](#prediction-and-decision-making)
+- [Week 5 - Model Evaluation and Refinement](#week-5---model-evaluation-and-refinement)
+  * [Generalization Error](#generalization-error)
+  * [Cross validation](#cross-validation)
+  * [Overfitting, Underfitting and Model Selection](#overfitting--underfitting-and-model-selection)
+  * [Ridge Regression](#ridge-regression)
+  * [Grid Search](#grid-search)
+  * [Interesting Articles:](#interesting-articles-)
+
 # Week 1 - Intro
 Data Analsis/Science helps answer questions by looking at data. 
 
 Ex. What should the price of our used car be?
 
 Data Science Thinking:
-- Is there data on prices of other cars and their characterisistcs?
+- Is there data on prices of other cars and their characteristics?
 - what features of cars affect prices? e.g. color, horsepower, etc. 
 
 features = attributes = characteristics
@@ -23,8 +47,8 @@ Python Packages in Data Science:
 - Scipy - functions for math problems e.g Integrals, solve Differential Equations, optimization, 
 2. Data Visualization
 - Matplotlib, Seaborn (based on MatplotLib)
-3. Algorithimic Libraries
-- Scikit-learn -- ML, regression, classification. Built on NumPy, scipy, matplotlib
+3. Algorithmic Libraries
+- Scikit-learn -- ML, regression, classification. Built on NumPy, SciPy, matplotlib
 - Statsmodels -- explore data, estimate statistical models, and perform statistical tests. 
 
 Read CSV into pandas:
@@ -44,7 +68,7 @@ Accessing Pandas Data:
 - `df['colName']` returns a series from the dataframe `df`
 - `df[['colName']]` returns a dataframe from the dataframe `df`
 
-Statisical summary: `df.describe()`
+Statistical summary: `df.describe()`
 - can also generate statistics for all columns (including string based columns)
 
 Access Database in Python 
@@ -84,7 +108,7 @@ Can convert categorial values into numeric variables
 # Week 3 - Exploratory Data Analysis
 
 Purpose of Exploratory Data Analysis is to:
-- summarize main characteristcs of data
+- summarize main characteristics of data
 - gain better understanding of data set, 
 - extract important variables and uncover relationships between variables
 
@@ -92,7 +116,7 @@ Descriptive Statistics:
 - For numerical variables: `df.describe()`
 - For categorial: `df['column'].value_counts()`
 - Box plots
-- Scatter plots: predictor = independant variable, target=dependant var
+- Scatter plots: predictor = independent variable, target=dependant var
 
 Grouping Data:
 - `dataframe.Groupby()` is used on categorical variables
@@ -115,13 +139,13 @@ Correlation: measuring extent to which different variables are interdependant.
 `df.corr()` - Find pairwise correlation of `int64` or `float64` dtypes
 - entry in the matrix indicates correlation between the two variables
 
-Pearson correlation: measures strength of correleation for continuous numerical variables by giving correlation coefficent and P-value. 
-- coefficent: strength and direction of correlation
-- P-value: how certain we are about the calculated correlation coefficent
+Pearson correlation: measures strength of correleation for continuous numerical variables by giving correlation coefficient and P-value. 
+- coefficient: strength and direction of correlation
+- P-value: how certain we are about the calculated correlation coefficient
     - strong: p-value<0.001
     - moderate: p-value<0.05
     - weak: p-value<0.1
-    - no certainity- s: p-value>0.1
+    - no certainty- s: p-value>0.1
     
 - can create a heatmap for showing relation of each variable to each other
 
@@ -154,16 +178,16 @@ We will try to determine a reasonable price, for a used car.
 
 
 Model:
-- thought of as a matematical equation used to predict a value, given one or more other values
-- relating one or more independant variables to dependant variable
+- thought of as a mathematical equation used to predict a value, given one or more other values
+- relating one or more independent variables to dependant variable
 - more relvant data ==> more accurate model
 
 
 - Regression ==> finding line of best fit
 
 ## Simple Linear Regression (SLR)
-- single independant variable
-- finding the cofficents `b0,b1` in `y=b0+b1*x`
+- single independent variable
+- finding the coefficients `b0,b1` in `y=b0+b1*x`
 - use training points to _fit_ a model, then use the model to _predict_ an estimate.
 - `y_hat` denotes an estimate
 
@@ -186,9 +210,9 @@ Yhat=lm.predict(X)
 
 ## Multiple Linear Regression
 - for finding relationship between two or more predictor (X) variables, and one continuous target (Y) variable
-- SLR, extended to multiple dimensions and more coefficents.
-- finding the cofficents `b0,b1,b2,b3...` in `y= b0 + b1*x1 + b2*x2 + b3*x3`
-- Visually, we are finding coefficents of the hyperplane. (e.g., in 3D, which is 2 independant variables, we are looking for plane of best fit)
+- SLR, extended to multiple dimensions and more coefficients.
+- finding the coefficients `b0,b1,b2,b3...` in `y= b0 + b1*x1 + b2*x2 + b3*x3`
+- Visually, we are finding coefficients of the hyperplane. (e.g., in 3D, which is 2 independent variables, we are looking for plane of best fit)
 
 ```python
 # Same as before, except X variable is now multiple dimensions:
@@ -444,15 +468,15 @@ for n in order:
 
 ## Ridge Regression
 - prevents overfitting
-- controls coefficents for higher order terms in polynomial by introducing `alpha`.
-- larger alpha means smaller coefficents
-    - ==> making coefficients become mroe robust to collinearity (relation between independant variables) [Source](https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression-and-classification)
+- controls coefficients for higher order terms in polynomial by introducing `alpha`.
+- larger alpha means smaller coefficients
+    - ==> making coefficients become more robust to collinearity (relation between independent variables) [Source](https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression-and-classification)
     - ==> making model more underfitting
 - Ridge Regresion mathematically solves the problem of <img src="imgs/min_ridge.png" width="150"/>
 - `alpha` is selected before fitting/training model
 - to select correct `alpha`, use cross-validation
 
-Below is a graph taken from [here](https://scikit-learn.org/stable/auto_examples/linear_model/plot_ridge_path.html) showing effect of `alpha` on coefficents
+Below is a graph taken from [here](https://scikit-learn.org/stable/auto_examples/linear_model/plot_ridge_path.html) showing effect of `alpha` on coefficients
 
 ![img](https://scikit-learn.org/stable/_images/sphx_glr_plot_ridge_path_001.png)
 
@@ -469,7 +493,7 @@ Yhat=RidgeModel.predict(x)
 
 Grid Search
 - allows to scan through multiple free parameters
-- `alpha` is called a **hyperparameter**/**free parameter**. This is a paramter not part of fitting or training process, but of the model itself that is not learnt by the model. (i.e. passed as agruments to constructor)
+- `alpha` is called a **hyperparameter**/**free parameter**. This is a parameter not part of fitting or training process, but of the model itself that is not learnt by the model. (i.e. passed as arguments to constructor)
 - Grid Search takes training data and different values of the hyperparameters.
 - Grid Search searches the hyper-parameter space for the best cross validation score.
 - https://scikit-learn.org/stable/modules/grid_search.html
@@ -485,7 +509,7 @@ Grid Search
         - `Training set`: used during the learning process and is used to fit the parameters (e.g., weights) of the model
         - `Validation Set`: used to tune the hyperparameters i.e. optimize model's architecture
         - `Testing set`: evaluate the optimized model. Used only to assess the performance of a fully-trained model. e.g. would use the test to estimate the error rate after we have chosen the final model. (MLP size and actual weights) After assessing the model model on the test set, YOU MUST NOT tune the model any further! At this point, we decide whether we need to restructure the model / go back to the drawing board. 
-        - [Why seperate test and validation data sets? - Stackoverflow](https://stats.stackexchange.com/a/96869) 
+        - [Why separate test and validation data sets? - Stackoverflow](https://stats.stackexchange.com/a/96869) 
         - https://towardsdatascience.com/train-validation-and-test-sets-72cb40cba9e7
     - train the model for different hyperparameters.
     - Use the R-squared or MSE for each model. Select the hyperparameter that minimizes the mean squared error or maximizes the R-squared on the validation set.
@@ -513,4 +537,4 @@ scores['mean_test_score']
 
 ## Interesting Articles:
 - https://www.jeremyjordan.me/hyperparameter-tuning/
-    - Conceptually discusses hyper paramter tuning in Grid Search vs RandomSearch
+    - Conceptually discusses hyper parameter tuning in Grid Search vs RandomSearch

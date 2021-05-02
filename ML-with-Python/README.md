@@ -2,10 +2,59 @@
 
 These are some notes for the [Machine Learning with Python course](https://www.coursera.org/learn/machine-learning-with-python ), meant to accompany the ipython notebooks
 
+## Table of Contents:
+- [Machine Learning with Python](#machine-learning-with-python)
+- [Week 1 - What is ML?](#week-1---what-is-ml-)
+  * [Supervised vs unsupervised learning:](#supervised-vs-unsupervised-learning-)
+    + [Supervised](#supervised)
+    + [Unsupervised](#unsupervised)
+      - [Clustering](#clustering)
+- [Week 2 - Regression](#week-2---regression)
+  * [Types of Regression:](#types-of-regression-)
+  * [Applications of regression](#applications-of-regression)
+  * [Regression Algorithms:](#regression-Algorithms-)
+  * [Evaluation Metrics](#evaluation-metrics)
+  * [MLR](#mlr)
+  * [Non-linear Regression](#non-linear-regression)
+    + [Polynomial Regression](#polynomial-regression)
+    + [Other non-linear regression](#other-non-linear-regression)
+- [Week 3 - Classification](#week-3---classification)
+  * [Classification Algorithms:](#classification-Algorithms-)
+  * [K-Nearest Neighbors](#k-nearest-Neighbors)
+    + [Calculate similarity / distance between two data points](#calculate-similarity---distance-between-two-data-points)
+    + [Selecting the right `K`](#selecting-the-right--k-)
+  * [Evaluation Metrics in Classification](#evaluation-metrics-in-classification)
+    + [Jaccard Index](#jaccard-index)
+    + [F1 Score](#f1-score)
+      - [Confusion Matrix](#confusion-matrix)
+      - [Accuracy](#accuracy)
+      - [Precision](#precision)
+      - [Recall](#recall)
+      - [F1 Score](#f1-score-1)
+      - [Links:](#links-)
+    + [Log Loss](#log-loss)
+  * [Decision Trees](#decision-trees)
+    + [Building a decision tree](#building-a-decision-tree)
+    + [Entropy](#entropy)
+    + [How to know which attribute is the best to divide the dataset?](#how-to-know-which-attribute-is-the-best-to-divide-the-dataset-)
+    + [Information Gain](#information-gain)
+    + [Using Categorical data in Decision Trees](#using-categorical-data-in-decision-trees)
+  * [Logistic Regression](#logistic-regression)
+    + [Applications of LogisticRegression](#applications-of-Logisticregression)
+    + [When should Logistic Regression be used?](#when-should-Logistic-regression-be-used-)
+    + [Logistic Regression vs. Linear Regression](#logistic-regression-vs-linear-regression)
+    + [Logistic / Sigmoid Function](#logistic---sigmoid-function)
+    + [Training Process](#training-process)
+    + [Mutliclass classification](#mutliclass-classification)
+      - [One vs. all (One vs. Rest)](#one-vs-all--one-vs-rest-)
+      - [Multinomial classification](#multinomial-classification)
+    + [Scikit-Learn implementation.](#scikit-learn-implementation)
+  * [Support Vector Machine](#support-vector-machine)
+
 # Week 1 - What is ML?
 
 Major ML techniques:
-- Regression/Estimation: for prediciting continuous values
+- Regression/Estimation: for predicting continuous values
     - e.g. estimating price of house
 - Classification: predicting discrete class label or category for a case
    - e.g. is cell cancerous?
@@ -61,7 +110,7 @@ data is *unlabelled*
 - has fewer models and evaluation methods to ensure model is accurate,  than supervised learning
 - less controlled environment, since the machine is creating outcomes for us. 
 
-Commonn Unsupervised learning techniques:
+Common Unsupervised learning techniques:
 - Dimension Reduction / Feature selection: - reduces redundant features/dimensions to make classification easier. 
 - Density Estimation: used to explore data to find some structure within it. 
 - Market basket analysis: based on theory that if you buy a certain group of items, you're more likely to buy this other group of items
@@ -85,8 +134,8 @@ What is clustering?
 - each type below can be linear or non-linear regression
 
 
-- Simple Regression: only 1 independant variable is used to estimate the dependant
-- Multiple regression: more than 1 independant variable is used. Each independant variable will need to be lienarly related to dependant.
+- Simple Regression: only 1 independent variable is used to estimate the dependant
+- Multiple regression: more than 1 independent variable is used. Each independent variable will need to be linearly related to dependant.
 
 
 ## Applications of regression
@@ -94,11 +143,11 @@ What is clustering?
 - price estimation
 - employment income
 
-## Regression Algorithims:
-- Oridnal Regression
+## Regression Algorithms:
+- Ordinal Regression
 - Poisson regression
 - Fast Forest quantile Regression
-- Linear, Polynomial, Lasoo, Stepwise, Ridge Regression
+- Linear, Polynomial, Lasso, Stepwise, Ridge Regression
 - Bayesian Linear Regression
 - Neural Network regression
 - Decision Forest regression
@@ -116,12 +165,12 @@ What is clustering?
 
 ## MLR
 
-How to find coefficents for MLR?
+How to find coefficients for MLR?
 - OLS; minimizes MSE. Uses lin alg operations. Can take a long time for large dataset (>10k rows)
-- Optimization algorithim. e.g. Gradient descent. 
+- Optimization algorithm. e.g. Gradient descent. 
 
 
-Using multiple independant variables can often give better results than SLR. But adding too many independant variables without any real theoretical justification can result in an overfit model (no longer general enough for unseen data)
+Using multiple independent variables can often give better results than SLR. But adding too many independent variables without any real theoretical justification can result in an overfit model (no longer general enough for unseen data)
 
 
 Explained variance regression score: `= 1- Var(y-y_hat)/Var(y)`
@@ -136,7 +185,7 @@ Explained variance regression score: `= 1- Var(y-y_hat)/Var(y)`
 - therefore, can use LeastSquares
 
 ### Other non-linear regression
-- For a function to be non-linear, `y_hat` must be non-linear function of parameters `w` (coefficents), not necassarily the features `X` 
+- For a function to be non-linear, `y_hat` must be non-linear function of parameters `w` (coefficients), not necessarily the features `X` 
     - e.g. `y=log(w_0 + w_1*x + w_2*x^2 +..._)`
     - e.g. `y= w_0 + w_1*w_2^x`
 - cannot use OLS to fit regression
@@ -153,28 +202,28 @@ Classification:
 - e.g. determining if bank customer will default on loan or not (binary classification)
 - e.g. Determining appropriate medication for patient with a similar illness (multi-class classification)
 
-## Classification Algorithims:
+## Classification Algorithms:
 - Decision Trees
 - Naive Bayes
 - Linear Discriminant Analysis
-- KNN (K-nearest neighbour)
-- Logisitic Regression
+- KNN (K-nearest neighbor)
+- Logistic Regression
 - SVM (Support vector machines)
 - Neural networks
 
-## K-Nearest Neighbours
-We choose a class as a predicition by looking at the `K` nearest neighbors
+## K-Nearest Neighbors
+We choose a class as a prediction by looking at the `K` nearest neighbors
 
 - method for classifying cases based on their similarity to other cases
 - KNN approach is based on the fact that similar cases with same class labels are near each other
-- cases that are "near" to each other are said to be `neighbours`
+- cases that are "near" to each other are said to be `Neighbors`
 - distance between two cases (e.g. Euclidean distance) is a measure of their similarity.
 
-Algorithim:
+Algorithm:
 1. Pick a value of `K`
 2. Calculate the distance of unknown case from all (labelled/known) cases
 3. Get the `K`-observations in the training data that are "nearest" to the unknown data point.
-4. Predict the class of the unknown data point using the most popular class from the `K`-nearest neighbours
+4. Predict the class of the unknown data point using the most popular class from the `K`-nearest Neighbors
 
 Note: out-of-sample data can't be trusted to be used for prediction of unknown samples
 
@@ -206,7 +255,7 @@ There are other dissimilarity measurements that could be used, but it is highly 
 ### Selecting the right `K`
 if we choose a:
 - really low value of `K` (e.g. `K=1`):
-    - tend to capture noise or anomolies in data
+    - tend to capture noise or anomalies in data
     - creates highly complex model, would most likely result in overfitting 
     - not generalized enough to be used for out-of sample cases. 
 - really high value of `K` (e.g. `K=20`):
@@ -273,7 +322,7 @@ See the [sklearn documentation](https://scikit-learn.org/stable/modules/model_ev
 #### Accuracy
 - number of correctly classified instances over total number of instances
 - fraction of total samples that were correctly classified.
-- can be misleading for unbalanced datasets, therefore not necassarily always a good measure
+- can be misleading for unbalanced datasets, therefore not necessarily always a good measure
 
 ```python
 from sklearn.metrics import accuracy_score
@@ -318,7 +367,7 @@ To find F1 score of a model,
 - calculate for each class 
 - Average accuracy of classifier is the average F1 score of all labels (a.k.a Macro F1)
 
-In multiclass clasification, the confusion matrix would look like this:. The green cells are "True Positives" for each class. Thus, `Precision, Recall, F1` etc. is calculated seperately for each class. The example below shows groups of counts, based on if calculating for the `Apple` class.
+In multiclass classification, the confusion matrix would look like this:. The green cells are "True Positives" for each class. Thus, `Precision, Recall, F1` etc. is calculated seperately for each class. The example below shows groups of counts, based on if calculating for the `Apple` class.
 
 ![Multi-class confusion matrix](./imgs/confusion_matrix.png)
 
@@ -365,11 +414,11 @@ To find the Log Loss of a model:
 
 1. Calculate log loss for each row
 
-Log Loss equation to measure how far each predicition is from the actual label:
+Log Loss equation to measure how far each prediction is from the actual label:
 
 ![Log Loss equation](https://latex.codecogs.com/png.latex?-%7B%28y%5Clog%28p%29%20&plus;%20%281%20-%20y%29%5Clog%281%20-%20p%29%29%7D)
 
-Note: the `log` in log loss is actually `ln`. [Since errors are proportional with `ln` vs `log`](https://datascience.stackexchange.com/questions/57009/why-doesnt-the-binary-classification-log-loss-formula-make-it-explicit-that-nat), the base of the logarithim doesn't matter.
+Note: the `log` in log loss is actually `ln`. [Since errors are proportional with `ln` vs `log`](https://datascience.stackexchange.com/questions/57009/why-doesnt-the-binary-classification-log-loss-formula-make-it-explicit-that-nat), the base of the logarithm doesn't matter.
 
 2. Then calculate average log loss across all rows of the test set. 
 
@@ -399,7 +448,7 @@ e.g. Suppose we are predicting which of 2 drugs would be most appropriate for a 
 ![A decision Tree](./imgs/decision_tree.png)
 
 ### Building a decision tree
-A decision tree is built by considering the attirbutes / features of the data, 1 by 1
+A decision tree is built by considering the attributes / features of the data, 1 by 1
 1. Choose an attribute from your dataset
 2. Calculate the significance of attribute in splitting of data (this shows whether the attribute is effective)
 3. Split data based on the value of the best attribute
@@ -411,11 +460,11 @@ A decision tree is built by considering the attirbutes / features of the data, 1
 
 Attribute that results in a more _pure_ split are more **significant** or **predictive** than the other attributes. This means the nodes are less impure.
 - A node is considered _pure_ if 100% of the cases fall into the same category of a target class.
-- The method uses recursive partiionining to split training data into segments by miniziming impurity at each step. 
+- The method uses recursive partitioning to split training data into segments by minimizing impurity at each step. 
 - impurity of nodes are calculated by **entropy** of data in the node. 
 
 ### Entropy 
-- measure of randomness or uncertainity
+- measure of randomness or uncertainty
 - the lower the Entropy, the less uniform the distribution, and the purer the node.
 - used to calculate impurity at each node. We want impurity to decrease at each step in the tree. 
 - Node is homogenous (all data in node is of 1 target class) --> Entropy=0
@@ -437,10 +486,10 @@ To answer this question, we try to answer the following:
 Answer: The tree with the higher **Information Gain** after splitting is better. 
 
 ### Information Gain
-- the information that can increase the level of certainity after splitting
+- the information that can increase the level of certainty after splitting
 
 `Information Gain = (Entropy before split) - (weighted entropy after split)`
-- `(weighted entropy after split)` is weighted by porportion of samples falling into that leaf.
+- `(weighted entropy after split)` is weighted by proportion of samples falling into that leaf.
 - as impurity / entropy decreases, information gain increases
 
 Below is an example of calculating Information Gain
@@ -455,7 +504,7 @@ Scikit-learn's `DecisionTreeClassifier` does not work with categorical data. To 
 
 [`LabelEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html) is meant for targets and is not meant to be used for features. Instead, use `OrdinalEncoder` or `OneHotEncoder`
 - we try to avoid using LabelEncoder since it implicitly shows a ranking/relation between labels of a feature, while this may not make sense in real life.
-- For data that has a ranking behaviour (e.g. low, medium high) --> use `OrdinalEncoder`. This maps ranked data to 0, 1, 2. 
+- For data that has a ranking behavior (e.g. low, medium high) --> use `OrdinalEncoder`. This maps ranked data to 0, 1, 2. 
     - Similar to using a `LabelEncoder`
 - For data that is not ranked E.g. gender (M,F) --> use `OneHotEncoder`
     - One hot encodes the data.
@@ -471,20 +520,20 @@ Relevant links:
 
 
 ## Logistic Regression
-- classification algorithimn for categorical target variables
-- similar to LinearRegression, but tries to predict a discrete or categorical target field, instead of a continous numeric target. 
+- classification algorithm for categorical target variables
+- similar to LinearRegression, but tries to predict a discrete or categorical target field, instead of a continuos numeric target. 
     - target can be binary or multi-class classification
     - e.g. "will customer switch services next term?" --> Target classes: "Yes, No"
-- independant variables need to be continous / numeric. If data is categorical, it needs to be converted to dummy or indicator coded (OneHotEncoded or LabelEncoded).
+- independent variables need to be continuos / numeric. If data is categorical, it needs to be converted to dummy or indicator coded (OneHotEncoded or LabelEncoded).
     - we also encode the target variables to a numerical value (e.g. 0, or 1 for binary classification).
-- returns a probability score in range `[0,1]` for a given sample of data. Then , maps results of probability to a discrete clas
+- returns a probability score in range `[0,1]` for a given sample of data. Then , maps results of probability to a discrete class
 
 In further notes below, binary classification is discussed.
 
 ![Linear Decision Boundary](./imgs/Logistic-regression.png)
 
-### Applications of LogisiticRegression
-- prediciting probability of person having a heart attack in a specified time period
+### Applications of LogisticRegression
+- predicting probability of person having a heart attack in a specified time period
 - predict mortality in injured patients, or probability of having a disease
 - predict customer's probability to purchase a new product or cancel a subscription
 - predict probability of failure
@@ -493,14 +542,14 @@ In further notes below, binary classification is discussed.
 In all these examples, not only do we predict the class of each case, but we also predict the probability of a case belonging to a specific class. 
 
 
-### When should Logisitic Regression be used?
+### When should Logistic Regression be used?
 - if target field is categorical, or binary. e.g 0/1, Yes/No
 - if we need probabilistic results / need the probability of our prediction (target variable is "probability of ....")\
-- if data is linearly seperable / when you need a linear decision boundary
-    - Decision boundary of LogisiticRegression is a hyperplane.  
+- if data is linearly separable / when you need a linear decision boundary
+    - Decision boundary of LogisticRegression is a hyperplane.  
     - Decision boundary may also be polynomial. [Example pf circular decision boundary - Andrew Ng](https://youtu.be/F_VG4LNjZZw?t=856)
 - for understanding impact of a feature on the target variable
-    - coefficents on features that are approx. `= 0` show the features are not that statstically significant. They don't much impact on the target variable.
+    - coefficients on features that are approx. `= 0` show the features are not that statstically significant. They don't much impact on the target variable.
 
 ### Logistic Regression vs. Linear Regression
 
@@ -508,7 +557,7 @@ In all these examples, not only do we predict the class of each case, but we als
 
 Suppose we try to do Linear Regression to predict categorical target variable.
 
-Example: predicting whether customer churn exists, using their age. If we input 13, we can see an ouput of approximately 0.3. 
+Example: predicting whether customer churn exists, using their age. If we input 13, we can see an output of approximately 0.3. 
 
 ![](./imgs/LinearRegression-Categorical.png)
 
@@ -534,7 +583,7 @@ Output of a logistic regression model is probability that `x` belongs to a class
 
 1. Initialize vector theta, with random values
 2. Calculate `y_hat = sigmoid(Theta^T*X) = P(y=1|x)` for an input customer with features in `x` vector
-3. Compare output of `y_hat` with actual ouput of customer `y` and record as error
+3. Compare output of `y_hat` with actual output of customer `y` and record as error
 4. Do Steps 2,3 for all customers. Add up the errors. Total error = cost of model 
     - Cost = J(theta) = Sum of errors
 5. Change theta to reduce cost
@@ -583,7 +632,7 @@ When do we stop iterations?
 This is just an extension of binary classification and can be done with 1 of the following approaches:
 
 #### One vs. all (One vs. Rest)
-- If we have to classify between 3 classes, we treat the problem as 3 seperate *binary* classification problems. 
+- If we have to classify between 3 classes, we treat the problem as 3 separate *binary* classification problems. 
     - We create 3 classifiers. Each classifier predicts 1 class vs. the rest
     - For predicting class of new input, we run the input through each classifier and pick the class with the highest probability. 
 - [Andrew Ng's lesson](https://www.youtube.com/watch?v=DuXmFxDSc9U)
@@ -617,13 +666,12 @@ ovr = OneVsRestClassifier(model)
 ## Support Vector Machine
 
 - classifier
-- SMV is a supervised algorithim that classifies cases by finding a seperator
+- SMV is a supervised algorithm that classifies cases by finding a seperator
 
 Works by:
-1. Mapping data to a high-dimensional feature space (so data points can be categorized, even when the data are not otherwise linearly seperable)
+1. Mapping data to a high-dimensional feature space (so data points can be categorized, even when the data are not otherwise linearly separable)
 2. Finding a seperator. (Seperator is estimated for the data)
 - data should be transformed that a seperator can be drawn as a hyperplane
 
 
-
-Mapping daata into a higher dimensional space in such a way that can change a linearly inseperable data set into a linearly seperatable dataset is **kernelling**
+Mapping data into a higher dimensional space in such a way that can change a linearly inseparable data set into a linearly seperatable dataset is **kernelling**
