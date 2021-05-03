@@ -7,6 +7,8 @@ Courses:
 3. [Machine Learning with Python](https://www.coursera.org/learn/machine-learning-with-python)
 4. [Introduction to Deep Learning & Neural Networks with Keras](https://www.coursera.org/learn/introduction-to-deep-learning-with-keras)
 5. [Building Deep Learning Models with TensorFlow](https://www.coursera.org/learn/building-deep-learning-models-with-tensorflow)
+6. [Kaggle: Intro to Deep Learning](https://www.kaggle.com/learn/intro-to-deep-learning)
+7. [Kaggle: Computer Vision - CNNs](https://www.kaggle.com/learn/computer-vision)
 
 
 [Jupyter Notebook Cheat sheet](https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ )
