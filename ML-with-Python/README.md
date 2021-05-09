@@ -675,3 +675,5 @@ Works by:
 
 
 Mapping data into a higher dimensional space in such a way that can change a linearly inseparable data set into a linearly seperatable dataset is **kernelling**
+
+TODO: Finish notes / course
