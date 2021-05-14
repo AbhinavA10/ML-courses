@@ -59,7 +59,7 @@ Use Keras and Tensorflow to train your first neural network.
     "loss function": measures how good the network's predictions are, compared to expected output.
     "optimizer": tells the network how to change its weights, to minimize loss
 
-All optimization algorithims used in DL belong to a family of `stochastic gradient descent`. - iterative algorithms that train a network in steps. 
+All optimization algorithms used in DL belong to a family of `stochastic gradient descent`. - iterative algorithms that train a network in steps. 
 
 One step of training goes like this:
 - Sample some training data and run it through the network to make predictions.
@@ -80,7 +80,7 @@ Learning rate and minibatch size have largest effect on how SGD training proceed
 - smaller batch sizes give noisier weight updates and loss curves. This is because each batch is a small sample of data and smaller samples tend to give noisier estimates.
 - Smaller learning rates make the updates smaller and the training takes longer to converge. Large learning rates can speed up training, but don't "settle in" to a minimum as well. When the learning rate is too large, the training can fail completely.
 
-`Adam` optimizer is a great SGD algorithm that has an adapttive learning rate. 
+`Adam` optimizer is a great SGD algorithm that has an adaptive learning rate. 
 
 **Stochastic** means "determined by chance." Our training is stochastic because the minibatches are random samples from the dataset.
 
@@ -108,7 +108,7 @@ history_df['loss'].plot();
 ```
 When the loss curve becomes horizontal like that, it means the model has learned all it can and there would be no reason continue for additional epochs
 
-The exercise notebook is a good example of mixing sklearn and tf code to preprocess the data, then using a DNN. 
+The exercise notebook is a good example of mixing `sklearn` and tf code to preprocess the data, then using a DNN. 
 
 # Overfitting and Underfitting
 Improve performance with extra capacity or early stopping.
@@ -137,7 +137,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 # validation loss over the previous 20 epochs, then stop the training 
 # and keep the best model we found
 early_stopping = EarlyStopping(
-    min_delta=0.001, # minimium amount of change to count as an improvement
+    min_delta=0.001, # minimum amount of change to count as an improvement
     patience=20, # how many epochs to wait before stopping
     restore_best_weights=True, # Also restores best weights
 )
@@ -190,7 +190,7 @@ Apply deep learning to another common task.
 
 - uses `Accuracy`to measure success of classification model
     - `accuracy = number_correct / total`
-- uses `Cross-entropy` as the loss function (Accuracy since ratio, is a discontinous function)
+- uses `Cross-entropy` as the loss function (Accuracy since ratio, is a discontinuous function)
     - measures the distance from one probability (distribution) to another. 
 - layers use `Sigmoid` activation function, rather than ReLU
 
