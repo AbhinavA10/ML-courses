@@ -202,10 +202,3 @@ model.compile(
     metrics=['binary_accuracy'],
 )
 ```
-
-# Higgs Boson Notebook
-The notebook covers:
-- using Kaggle's TPU
-- parsing `TFRecords` and building a `tf.data.Dataset` object to be used for training
-- example of using Keras' Functional API for model building
-- using a **Learning rate schedule** to increase or decrease learning rate as needed. (gradually decreasing the learning rate over the course of training can improve performance)
