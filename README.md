@@ -1,5 +1,5 @@
 # ML-courses
-Data Science Courses
+Work on Courses in Data Science, ML, and Deep Learning.
 
 Courses:
 1. [Data Analysis with Python](https://www.coursera.org/learn/data-analysis-with-python)
@@ -9,6 +9,7 @@ Courses:
 5. [Building Deep Learning Models with TensorFlow](https://www.coursera.org/learn/building-deep-learning-models-with-tensorflow)
 6. [Kaggle: Intro to Deep Learning](https://www.kaggle.com/learn/intro-to-deep-learning)
 7. [Kaggle: Computer Vision - CNNs](https://www.kaggle.com/learn/computer-vision)
+8. [Kaggle Competition Lessons](./Kaggle-Competition-Lesson)
 
 
 [Jupyter Notebook Cheat sheet](https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ )
