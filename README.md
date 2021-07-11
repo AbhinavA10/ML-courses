@@ -10,6 +10,7 @@ Courses:
 6. [Kaggle: Intro to Deep Learning](https://www.kaggle.com/learn/intro-to-deep-learning)
 7. [Kaggle: Computer Vision - CNNs](https://www.kaggle.com/learn/computer-vision)
 8. [Kaggle Competition Lessons](./Kaggle-Competition-Lesson)
+8. [QAT Notes](./QAT)
 
 
 [Jupyter Notebook Cheat sheet](https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ )
