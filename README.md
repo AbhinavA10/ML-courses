@@ -11,6 +11,7 @@ Courses:
 7. [Kaggle: Computer Vision - CNNs](https://www.kaggle.com/learn/computer-vision)
 8. [Kaggle Competition Lessons](./Kaggle-Competition-Lesson)
 8. [QAT Notes](./QAT)
+9. [TF Data Pipelines](./TF-Data-Pipeline)
 
 
 [Jupyter Notebook Cheat sheet](https://cheatography.com/weidadeyue/cheat-sheets/jupyter-notebook/ )

@@ -1,4 +1,4 @@
-## QAT and the TensorFlow API
+# QAT and the TensorFlow API
 
 > Some notes on what QAT is, and its API in TensorFlow
 
