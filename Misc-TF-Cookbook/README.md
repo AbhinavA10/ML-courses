@@ -164,6 +164,46 @@ x = tf.keras.layers.Dropout(
 - In general, `return_sequences = True` is used for either stacking RNNs, or for getting outputs at each timestep. Getting output at each timestep is useful for streaming. Audio classification of a 1 second audio clip doesn’t really need it, but something like predicting things in a continues stream of data would need the output at each timestep
 - `StackedRNNCell` makes it more efficient than having separate RNNCells that all output all their timesteps and thus hold their output for all timesteps in memory.
 
+Other notes:
+- [https://stats.stackexchange.com/questions/274478/understanding-input-shape-parameter-in-lstm-with-keras](https://stats.stackexchange.com/questions/274478/understanding-input-shape-parameter-in-lstm-with-keras)
+
+- [https://stackoverflow.com/questions/47268608/confusion-about-keras-rnn-input-shape-requirement](https://stackoverflow.com/questions/47268608/confusion-about-keras-rnn-input-shape-requirement)
+
+inputs (x) is shape : # NUM different inputs/sequences, of TIMESTEPS timesteps, and INPUT_D dimensions/features in each input
+
+input shape to model will be input_shape=(TIMESTEPS,INPUT_D)
+
+initial_states of an RNN is usually set to 0.
+
+[https://stackoverflow.com/questions/63044445/setting-the-initial-state-of-an-rnn-represented-as-a-keras-sequential-model](https://stackoverflow.com/questions/63044445/setting-the-initial-state-of-an-rnn-represented-as-a-keras-sequential-model)
+
+[https://towardsdatascience.com/illustrated-guide-to-recurrent-neural-networks-79e5eb8049c9](https://towardsdatascience.com/illustrated-guide-to-recurrent-neural-networks-79e5eb8049c9) 
+
+I saw some code that used the syntax x[[0]] on a 3D numpy array x,
+
+- Why does the output of x[[0]] act like np.expand_dims(x[0], axis=0)?
+- What is this syntax called?
+- How is a list ([0]) being used as an index of x? i.e. y=[0], print(x[y])
+
+Example snippet:
+
+```python
+import numpy as np
+rng = np.random.RandomState(3)
+x = rng.uniform(-0.5, 0.5, size=(10, 1, 2))
+print("x[[0]]", x[[0]], x[[0]].shape)
+expanded = np.expand_dims(x[0], axis=0)
+print("np.expand_dims(x[0], axis=0)", expanded, expanded.shape)
+```
+has output
+```
+x[[0]] [[[0.0507979  0.20814782]]] (1, 1, 2)
+np.expand_dims(x[0], axis=0) [[[0.0507979  0.20814782]]] (1, 1, 2)
+```
+
+Answer:
+you can always use lists as indices to numpy arrays, e.g. x[[0, 3, 5]] will return the 0th, 3rd, and 5th elements from x. so x[[0]] is just a one-element version of that and so if x has shape (n, m), then x[[0, 3, 5]] would have shape (3, m). so by the same reason x[[0]] has shape (1, m). it's called "advanced indexing"
+
 ## TF Model optimization
 - https://www.tensorflow.org/model_optimization 
   - Collection of TF tools for optimizing ML models for deployment
